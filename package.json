@@ -1,10 +1,10 @@
 {
   "name": "reduce-js",
   "version": "0.0.1",
-  "description": "Easy way to use browserify",
+  "description": "Use browserify and factor-bundle to pack node-style modules into a single bundle or multiple bundles",
   "main": "index.js",
   "scripts": {
-    "test": "eslint . && tap test/*.js"
+    "test": "eslint lib/*.js test/*.js && tap test/*.js"
   },
   "repository": {
     "type": "git",
@@ -24,17 +24,17 @@
   "homepage": "https://github.com/zoubin/reduce-js#readme",
   "dependencies": {
     "browserify": "^11.1.0",
+    "factor-bundle": "^2.5.0",
     "lazypipe": "^1.0.1",
     "merge-stream": "^1.0.0",
-    "post-factor-bundle": "^1.0.0",
-    "read-only-stream": "^2.0.0",
     "through2": "^1.1.1",
     "util-mix": "^3.0.1",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.4.0",
-    "xglob": "^0.1.2"
+    "xglob": "^1.0.0"
   },
   "devDependencies": {
+    "callback-sequence": "^1.1.0",
     "del": "^2.0.2",
     "eslint": "^1.4.1",
     "gulp": "^3.9.0",
