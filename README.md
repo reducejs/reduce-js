@@ -9,14 +9,14 @@ which has a lot of plugins to transform such streams.
 
 It also handles some subtle problems arisen when using factor-bundle.
 
-## Table of contents
+# Table of contents
 
 - [Examples](#examples)
   - [Single bundle](#single-bundle)
 
-## Examples
+# Examples
 
-### Single bundle
+## Single bundle
 
 ```javascript
 gulp.task('default', ['clean'], function () {
@@ -29,7 +29,7 @@ gulp.task('default', ['clean'], function () {
 });
 ```
 
-### Watch single bundle
+## Watch single bundle
 
 ```javascript
 gulp.task('watch', ['clean'], function (cb) {
@@ -43,11 +43,12 @@ gulp.task('watch', ['clean'], function (cb) {
 });
 ```
 
-### Multiple bundles
+## Multiple bundles
 
 ```javascript
 var factorOpts = {
   outputs: ['a.js', 'b.js'],
+  common: 'common.js',
 };
 gulp.task('factor', ['clean'], function () {
   return reduce.src('*.js', { basedir: basedir, factor: factorOpts })
@@ -59,11 +60,12 @@ gulp.task('factor', ['clean'], function () {
 });
 ```
 
-### Watch multiple bundles
+## Watch multiple bundles
 
 ```javascript
 var factorOpts = {
   outputs: ['a.js', 'b.js'],
+  common: 'common.js',
 };
 gulp.task('factor.watch', ['clean'], function (cb) {
   reduce.watch()
@@ -76,85 +78,84 @@ gulp.task('factor.watch', ['clean'], function (cb) {
 });
 ```
 
-## API
+# API
 
-### reduce.src(patterns, bopts)
+## reduce.src(patterns, bopts)
 
 Creates a vinyl file stream,
 which flows all the file objects,
 and can be transformed by gulp plugins.
 
-#### patterns
+### patterns
 
 Type: `String`, `Array`
 
 Used by [xglob](https://github.com/zoubin/xglob) to find entries.
 
-#### bopts
+### bopts
 
 Options to create the browserify instance.
 
-New fields or fields with extra meanings are explained below.
+Fields not explained in the following sections are the same with those in [browserify](https://github.com/substack/node-browserify#browserifyfiles--opts)
 
-##### basedir
+#### basedir
 
 Also used as the `cwd` field of the options passed to xglob.
 
-##### factor
+#### factor
 
 Type: `Object`
 
-Options passed to [post-factor-bundle](https://github.com/zoubin/post-factor-bundle).
+Options passed to [factor-bundle](https://github.com/substack/factor-bundle/).
 
-(Perhaps move to `post-factor-bundle`?)
+Fields not explained in the following sections are the same with those in [factor-bundle](https://github.com/substack/factor-bundle/#var-fr--factorfiles-opts)
 
-New fields or fields with extra meanings are explained below.
-
-`common`
+##### common
 
 Type: `String`
 
-File name of the common bundle
+File name of the common bundle.
 
-`commonFilter`
-
-Type: `String`, `Array`, `Function`
-
-If `String` or `Array`,
-specified files will be packed into the common bundle.
-
-If `Function`,
-it receives the tested filename,
-and if it returns true,
-that file will be packed into the common bundle.
-
-### w = reduce.watch(watchifyOpts)
+## w = reduce.watch(watchifyOpts)
 
 Creates a watch instance.
 
 `watchifyOpts` will be passed to `watchify`.
 
-#### w.src(pattern, opts)
+### w.src(pattern, opts)
 
 The same with `reduce.src`.
 
-#### w.pipe(fn, arg1, arg2,...)
+### w.pipe(fn, arg1, arg2,...)
 
 Like [lazypipe](https://github.com/OverZealous/lazypipe),
 just pass the stream constructor and its arguments to `.pipe`,
 and they will be called sequently with these arguments
 to create the pipeline.
 
-## factor-bundle
+
+## reduce.dest
+
+The same with [gulp.dest](https://github.com/gulpjs/gulp/blob/master/docs/API.md#gulpdestpath-options)
+
+## reduce.lazypipe
+
+The same with [lazypipe](https://github.com/OverZealous/lazypipe)
+
+## reduce.run
+
+The same with [callback-sequence#run](https://github.com/zoubin/callback-sequence#sequenceruncallbacks-done)
+
+# factor-bundle
 
 Options for controlling the behaviour of packing (`factorOpts`)
 are specified as the `factor` field of the options object (`bopts`) passed to `.src`.
 
-### Entries
+## Entries
 
 There are two types of entires: browserify entries and factor entries.
 
-#### Browserify entries
+### Browserify entries
 
 Handled by browserify to generate all the text streams.
 
@@ -163,7 +164,7 @@ which can be patterns used by [xglob](https://github.com/zoubin/xglob).
 
 Entry modules will be executed immediately when their containing outputs are loaded by the browser.
 
-#### Factor entries
+### Factor entries
 
 Handled by factor-bundle to group the text streams generarted by browserify,
 and create one bundle for each group.
@@ -181,7 +182,7 @@ If you want to pack some browserify entries into the common bundle,
 such as modules for initiating all the site pages,
 you can specify `factorOpts.entries` and excluded them from it.
 
-#### Outputs
+## Outputs
 
 Each factor entry groups several modules together and create a text stream,
 which will be transformed into a vinyl stream.
@@ -189,24 +190,31 @@ which will be transformed into a vinyl stream.
 You can specify the relative path (to the destination `gulp.dest()`) for each vinyl stream,
 through `factorOpts.outputs`.
 
-#### The common vinyl stream
+### The common vinyl stream
 
 The common vinyl stream is constructed from the text stream generated from the pipeline of browserify.
 
 You can specify its destination path through `factorOpts.common`.
 
-If `factorOpts.common` is not defined but there are other vinyl streams generated by factor-bundle,
+If `factorOpts.common` is not defined,
+and there are no other vinyl streams generated by factor-bundle,
 `factorOpts.common` will be defaulted to `common.js`.
 Otherwise, no common streams will be outputed.
 
-#### Factor vinyl streams
+#### Entries in common
+
+Factor entries are always excluded from the common bundle.
+
+Browserify entries that are not specified as factor entries will be included in the common bundle.
+
+### Factor vinyl streams
 
 Factor vinyl streams are created by factor-bundle.
 
 You can specify their destination paths through `factorOpts.outputs`,
 which should pair with `factorOpts.entries`.
 
-### Dedupe
+# Dedupe
 
 Modules could have the exactly same contents,
 and thus some of them will be deduped.
@@ -220,7 +228,7 @@ So, all non-entry deduped modules will be packed into the common bundle.
 
 Entries will never be deduped.
 
-### Hash IDs
+## Hash IDs
 
 Browserify uses numeric ids by default.
 
@@ -238,7 +246,107 @@ and discarded by factor-bundle.
 Right now,
 nothing has been done to make things better.
 
-## Watchify
+# Watchify
 
+`reduce.src` generates a vinyl stream,
+which could be transformed by gulp-plugins.
 
+However, `reduce.watch().src` generates a [lazypipe](https://github.com/OverZealous/lazypipe) instance,
+and will bundle in the next tick.
+
+In normal mode,
+you just `pipe` streams.
+
+```javascript
+var factorOpts = {
+  outputs: ['a.js', 'b.js'],
+  common: 'common.js',
+};
+gulp.task('factor', ['clean'], function () {
+  return reduce.src('*.js', { basedir: basedir, factor: factorOpts })
+    .pipe(buffer())
+    .pipe(uglify())
+    .pipe(gulp.dest('build'));
+});
+```
+
+In watch mode,
+you should `pipe` stream constructors.
+
+```javascript
+var factorOpts = {
+  outputs: ['a.js', 'b.js'],
+  common: 'common.js',
+};
+gulp.task('factor.watch', ['clean'], function (cb) {
+  reduce.watch()
+    .src('*.js', { basedir: basedir, factor: factorOpts })
+    .pipe(buffer)
+    .pipe(uglify)
+    .pipe(gulp.dest, 'build');
+});
+```
+
+You can use `lazypipe` to make things clear:
+
+```javascript
+var reduce = require('reduce-js');
+var lazypipe = reduce.lazypipe()
+  .pipe(buffer)
+  .pipe(uglify)
+  .pipe(gulp.dest, 'build');
+
+var factorOpts = {
+  outputs: ['a.js', 'b.js'],
+  common: 'common.js',
+};
+gulp.task('factor', ['clean'], function () {
+  return reduce.src('*.js', { basedir: basedir, factor: factorOpts })
+    .pipe(lazypipe());
+});
+gulp.task('factor.watch', ['clean'], function (cb) {
+  reduce.watch()
+    .src('*.js', { basedir: basedir, factor: factorOpts })
+    .pipe(lazypipe);
+});
+```
+
+# No gulp
+
+Actually, `gulp` is not necessary.
+`reduce.dest` can be always used in place of `gulp.dest`.
+Use `reduce.run` to run the task.
+
+```javascript
+var reduce = require('reduce-js');
+var path = require('path');
+
+var basedir = path.join(__dirname, 'src');
+var factorOpts = {
+  outputs: ['a.js', 'b.js'],
+  common: 'common.js',
+};
+
+var del = require('del');
+
+reduce.run(
+  [clean, bundle],
+  function () {
+    console.log('DONE');
+  }
+);
+
+function clean() {
+  return del(path.join(__dirname, 'build'));
+}
+
+function bundle() {
+  return reduce
+    .on('log', console.log.bind(console))
+    .on('error', console.log.bind(console))
+    .src('*.js', { basedir: basedir, factor: factorOpts })
+    .pipe(reduce.dest('build'));
+}
+
+```
 

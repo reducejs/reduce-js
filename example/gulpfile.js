@@ -16,6 +16,7 @@ var postTransforms = lazypipe()
 
 var factorOpts = {
   outputs: ['a.js', 'b.js'],
+  common: 'common.js',
 };
 
 var onerror = function (err) {
@@ -46,7 +47,7 @@ gulp.task('watch', ['clean'], function (cb) {
 });
 
 gulp.task('lazypipe', ['clean'], function () {
-  return reduce.src('*.js', { basedir: basedir })
+  return reduce.src('*.js', { basedir: basedir, factor: factorOpts })
     .on('log', gutil.log.bind(gutil))
     .on('error', onerror)
     .pipe(postTransforms());
@@ -56,7 +57,7 @@ gulp.task('lazypipe.watch', ['clean'], function (cb) {
   reduce.watch()
     .on('log', gutil.log.bind(gutil))
     .on('error', onerror)
-    .src('*.js', { basedir: basedir })
+    .src('*.js', { basedir: basedir, factor: factorOpts })
     .pipe(postTransforms);
 });
 

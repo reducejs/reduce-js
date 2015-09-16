@@ -11,17 +11,27 @@ var equal = require('util-equal');
 
 var fixtures = path.resolve.bind(path, __dirname);
 var log = gutil.log.bind(gutil);
-var dest = fixtures.bind(null, 'build', 'single-bundle');
-var expect = fixtures.bind(null, 'expected', 'single-bundle');
+function dest(file) {
+  if (file) {
+    return fixtures('build', 'dedupe-entry', file);
+  }
+  return fixtures('build', 'dedupe-entry');
+}
+function expect(file) {
+  if (file) {
+    return fixtures('expected', 'dedupe-entry', file);
+  }
+  return fixtures('expected', 'dedupe-entry');
+}
 
-test('single bundle', function(t) {
+test('dedupe-entry, entry should never be deduped', function(t) {
   t.plan(1);
   runSequence(
     [clean, bundle],
     function () {
       equal(
-        dest('common.js'),
-        expect('common.js'),
+        ['common.js', 'green.js', 'red.js'].map(dest),
+        ['common.js', 'green.js', 'red.js'].map(expect),
         function (res) {
           t.ok(res);
         }
@@ -35,7 +45,15 @@ function clean() {
 }
 
 function bundle() {
-  return reduce.src('*.js', { basedir: fixtures('src', 'single-bundle') })
+  var opts = {
+    basedir: fixtures('src', 'dedupe-entry'),
+    factor: {
+      entries: ['green.js', 'red.js'],
+      outputs: ['green.js', 'red.js'],
+      common: 'common.js',
+    },
+  };
+  return reduce.src('*.js', opts)
     .on('log', log)
     .on('error', log)
     .pipe(buffer())
