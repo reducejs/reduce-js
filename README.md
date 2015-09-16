@@ -13,6 +13,17 @@ It also handles some subtle problems arisen when using factor-bundle.
 
 - [Examples](#examples)
   - [Single bundle](#single-bundle)
+  - [Watch single bundle](#watch-single-bundle)
+  - [Multiple bundles](#multiple-bundles)
+  - [Watch multiple bundles](#watch-multiple-bundles)
+- [API](#API)
+- [factor-bundle](#factor-bundle)
+  - [Entries](#entries)
+  - [Ouputs](#outputs)
+- [Dedupe](#dedupe)
+  - [Hash IDs](#hash-ids)
+- [Watchify](#watchify)
+- [No gulp](#no-gulp)
 
 # Examples
 
