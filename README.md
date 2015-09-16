@@ -15,7 +15,7 @@ It also handles some subtle problems arisen when using factor-bundle.
   - [Watch single bundle](#watch-single-bundle)
   - [Multiple bundles](#multiple-bundles)
   - [Watch multiple bundles](#watch-multiple-bundles)
-- [API](#API)
+- [API](#api)
 - [factor-bundle](#factor-bundle)
   - [Entries](#entries)
   - [Ouputs](#outputs)
