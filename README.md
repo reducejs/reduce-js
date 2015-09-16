@@ -4,8 +4,7 @@ and [factor-bundle](https://www.npmjs.com/package/factor-bundle)
 to pack node-style modules into a single bundle or multiple bundles.
 
 It generates a [vinyl](https://www.npmjs.com/package/vinyl) stream,
-so very easy to be used with [gulp](https://www.npmjs.com/package/gulp),
-which has a lot of plugins to transform such streams.
+which can be transformed by [gulp](https://www.npmjs.com/package/gulp) plugins.
 
 It also handles some subtle problems arisen when using factor-bundle.
 
