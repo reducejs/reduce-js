@@ -117,7 +117,7 @@ The same with [lazypipe](https://github.com/OverZealous/lazypipe)
 
 The same with [callback-sequence#run](https://github.com/zoubin/callback-sequence#sequenceruncallbacks-done)
 
-## Watchify
+## Watch
 
 `reduce.src` generates a vinyl stream,
 which could be transformed by gulp-plugins.
