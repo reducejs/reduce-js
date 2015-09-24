@@ -4,7 +4,6 @@ var runSequence = require('callback-sequence').run;
 var path = require('path');
 var del = require('del');
 var gutil = require('gulp-util');
-var buffer = require('vinyl-buffer');
 var uglify = require('gulp-uglify');
 var gulp = require('gulp');
 var equal = require('util-equal');
@@ -39,14 +38,14 @@ function bundle() {
     basedir: fixtures('src', 'multi-bundles'),
     factor: {
       //entries: ['green.js', 'red.js'],
-      outputs: ['green.js', 'red.js'],
+      //outputs: ['green.js', 'red.js'],
+      needFactor: true,
       common: 'common.js',
     },
   };
   return reduce.src('*.js', opts)
     .on('log', log)
     .on('error', log)
-    .pipe(buffer())
     .pipe(uglify())
     .pipe(gulp.dest(dest()));
 }
