@@ -3,12 +3,11 @@ var reduce = require('..');
 var path = require('path');
 var gutil = require('gulp-util');
 var uglify = require('gulp-uglify');
-var lazypipe = require('lazypipe');
 var del = require('del');
 
 var basedir = path.join(__dirname, 'src');
 
-var postTransforms = lazypipe()
+var postTransforms = reduce.lazypipe()
   .pipe(uglify)
   .pipe(gulp.dest, 'build');
 
