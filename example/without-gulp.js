@@ -1,23 +1,23 @@
-var reduce = require('..');
-var path = require('path');
+var reduce = require('..')
+var path = require('path')
 
-var basedir = path.join(__dirname, 'src');
+var basedir = path.join(__dirname, 'src')
 var factorOpts = {
   outputs: ['a.js', 'b.js'],
   common: 'common.js',
-};
+}
 
-var del = require('del');
+var del = require('del')
 
 reduce.run(
   [clean, bundle],
   function () {
-    console.log('DONE');
+    console.log('DONE')
   }
-);
+)
 
 function clean() {
-  return del(path.join(__dirname, 'build'));
+  return del(path.join(__dirname, 'build'))
 }
 
 function bundle() {
@@ -25,6 +25,6 @@ function bundle() {
     .on('log', console.log.bind(console))
     .on('error', console.log.bind(console))
     .src('*.js', { basedir: basedir, factor: factorOpts })
-    .pipe(reduce.dest('build'));
+    .pipe(reduce.dest('build'))
 }
 
