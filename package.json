@@ -30,7 +30,7 @@
     "lazypipe": "^1.0.1",
     "run-callback": "^2.1.0",
     "util-mix": "^3.0.1",
-    "vinyl-fs": "^1.0.0",
+    "vinyl-fs": "^2.2.1",
     "watchify": "^3.4.0"
   },
   "devDependencies": {
