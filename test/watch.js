@@ -25,9 +25,8 @@ entries.forEach(function (file, i) {
   write(file, i)
 })
 
-test('watch', function(t) {
+test('watch', function(t, cb) {
   var changeNum = 3
-  t.plan((changeNum + 1) * 3)
   var factorOpts = {
     common: 'c.js',
     needFactor: true,
@@ -50,17 +49,13 @@ test('watch', function(t) {
       run(c + readDest('b.js')),
       pool.b + pool.c
     )
-    t.equal(
-      // `c` is not entry, `require` to run it.
-      run(c + 'require(1)'),
-      pool.c
-    )
     change(self)
   }
 
   function change(w) {
     if (!changeNum--) {
-      return w.close()
+      w.close()
+      return cb()
     }
     setTimeout(function() {
       var file = [src('c.js')].concat(entries)[changeNum % 3]
