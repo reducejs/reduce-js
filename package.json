@@ -25,7 +25,7 @@
   "dependencies": {
     "browserify": "^12.0.0",
     "callback-sequence": "^1.1.0",
-    "factor-vinylify": "^2.0.1",
+    "factor-vinylify": "^3.0.0",
     "globby": "^3.0.1",
     "lazypipe": "^1.0.1",
     "run-callback": "^2.1.0",
