@@ -1,6 +1,6 @@
 {
   "name": "reduce-js",
-  "version": "2.1.1",
+  "version": "3.0.0",
   "description": "Use browserify and factor-bundle to pack node-style modules into a single bundle or multiple bundles",
   "main": "index.js",
   "scripts": {
