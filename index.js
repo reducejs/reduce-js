@@ -1,4 +1,6 @@
-exports = module.exports = require('./lib/reduce')()
+var Reduce = require('./lib/reduce')
+exports = module.exports = Reduce()
+exports.Reduce = Reduce
 exports.watch = require('./lib/watch')
 exports.lazypipe = require('lazypipe')
 exports.dest = require('vinyl-fs').dest

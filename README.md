@@ -95,6 +95,9 @@ Type: `Object`
 
 Options passed to [factor-vinylify](https://github.com/zoubin/factor-vinylify#options).
 
+### r = reduce.Reduce()
+Create a new reduce instance
+
 ### w = reduce.watch(watchifyOpts)
 
 Creates a watch instance.
