@@ -9,9 +9,7 @@ var factorOpts = {
 
 var del = require('del')
 
-reduce.run(
-  [clean, bundle]
-)
+reduce.run([clean, bundle])
 
 function clean() {
   return del(path.join(__dirname, 'build'))
@@ -19,6 +17,9 @@ function clean() {
 
 function bundle() {
   reduce.watch()
+    .on('done', function () {
+      console.log('New Bundle created')
+    })
     .on('log', console.log.bind(console))
     .on('error', console.log.bind(console))
     .src('*.js', { basedir: basedir, factor: factorOpts })

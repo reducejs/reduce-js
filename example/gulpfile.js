@@ -1,7 +1,6 @@
 var gulp = require('gulp')
 var reduce = require('..')
 var path = require('path')
-var gutil = require('gulp-util')
 var uglify = require('gulp-uglify')
 var del = require('del')
 
@@ -17,7 +16,7 @@ var factorOpts = {
 }
 
 var onerror = function (err) {
-  gutil.log(err.message)
+  console.log(err.message)
 }
 
 gulp.task('clean', function () {
@@ -26,7 +25,7 @@ gulp.task('clean', function () {
 
 gulp.task('single', ['clean'], function () {
   return reduce.src('*.js', { basedir: basedir })
-    .on('log', gutil.log.bind(gutil))
+    .on('log', console.log.bind(console))
     .on('error', onerror)
     .pipe(uglify())
     .pipe(gulp.dest('build'))
@@ -34,7 +33,7 @@ gulp.task('single', ['clean'], function () {
 
 gulp.task('watch-single', ['clean'], function (cb) {
   reduce.watch()
-    .on('log', gutil.log.bind(gutil))
+    .on('log', console.log.bind(console))
     .on('error', onerror)
     .src('*.js', { basedir: basedir })
     .pipe(uglify)
@@ -43,14 +42,14 @@ gulp.task('watch-single', ['clean'], function (cb) {
 
 gulp.task('lazypipe', ['clean'], function () {
   return reduce.src('*.js', { basedir: basedir, factor: factorOpts })
-    .on('log', gutil.log.bind(gutil))
+    .on('log', console.log.bind(console))
     .on('error', onerror)
     .pipe(postTransforms())
 })
 
 gulp.task('watch-lazypipe', ['clean'], function (cb) {
   reduce.watch()
-    .on('log', gutil.log.bind(gutil))
+    .on('log', console.log.bind(console))
     .on('error', onerror)
     .src('*.js', { basedir: basedir, factor: factorOpts })
     .pipe(postTransforms)
@@ -58,7 +57,7 @@ gulp.task('watch-lazypipe', ['clean'], function (cb) {
 
 gulp.task('multiple', ['clean'], function () {
   return reduce.src('*.js', { basedir: basedir, factor: factorOpts })
-    .on('log', gutil.log.bind(gutil))
+    .on('log', console.log.bind(console))
     .on('error', onerror)
     .pipe(uglify())
     .pipe(gulp.dest('build'))
@@ -66,7 +65,7 @@ gulp.task('multiple', ['clean'], function () {
 
 gulp.task('watch-multiple', ['clean'], function (cb) {
   reduce.watch()
-    .on('log', gutil.log.bind(gutil))
+    .on('log', console.log.bind(console))
     .on('error', onerror)
     .src('*.js', { basedir: basedir, factor: factorOpts })
     .pipe(uglify)

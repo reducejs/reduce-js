@@ -9,12 +9,9 @@ var factorOpts = {
 
 var del = require('del')
 
-reduce.run(
-  [clean, bundle],
-  function () {
-    console.log('DONE')
-  }
-)
+reduce.run([clean, bundle]).then(function () {
+  console.log('DONE')
+})
 
 function clean() {
   return del(path.join(__dirname, 'build'))

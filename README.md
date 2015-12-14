@@ -1,15 +1,13 @@
 # reduce-js
-Use [browserify](https://www.npmjs.com/package/browserify)
-and [factor-vinylify](https://www.npmjs.com/package/factor-vinylify)
-to pack node-style modules into a single bundle or multiple bundles.
-
-[![npm](https://nodei.co/npm/reduce-js.png?downloads=true)](https://www.npmjs.org/package/reduce-js)
-
 [![version](https://img.shields.io/npm/v/reduce-js.svg)](https://www.npmjs.org/package/reduce-js)
 [![status](https://travis-ci.org/zoubin/reduce-js.svg?branch=master)](https://travis-ci.org/zoubin/reduce-js)
 [![coverage](https://img.shields.io/coveralls/zoubin/reduce-js.svg)](https://coveralls.io/github/zoubin/reduce-js)
 [![dependencies](https://david-dm.org/zoubin/reduce-js.svg)](https://david-dm.org/zoubin/reduce-js)
 [![devDependencies](https://david-dm.org/zoubin/reduce-js/dev-status.svg)](https://david-dm.org/zoubin/reduce-js#info=devDependencies)
+
+Use [browserify](https://www.npmjs.com/package/browserify)
+and [factor-vinylify](https://www.npmjs.com/package/factor-vinylify)
+to pack node-style modules into a single bundle or multiple bundles.
 
 It generates a [vinyl](https://www.npmjs.com/package/vinyl) stream,
 which can be transformed by [gulp](https://www.npmjs.com/package/gulp) plugins.
@@ -226,12 +224,9 @@ var factorOpts = {
 
 var del = require('del');
 
-reduce.run(
-  [clean, bundle],
-  function () {
-    console.log('DONE');
-  }
-);
+reduce.run([clean, bundle]).then(function () {
+  console.log('DONE')
+})
 
 function clean() {
   return del(path.join(__dirname, 'build'));

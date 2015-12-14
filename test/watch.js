@@ -1,5 +1,5 @@
 var reduce = require('..')
-var test = require('tape')
+var test = require('tap').test
 
 var vm = require('vm')
 var mkdirp = require('mkdirp')
@@ -11,7 +11,6 @@ var tmpdir = path.join((os.tmpdir || os.tmpDir)(), 'reduce-' + Math.random())
 var src = path.resolve.bind(path, tmpdir, 'src')
 var dest = path.resolve.bind(path, tmpdir, 'build')
 var gulp = require('gulp')
-var gutil = require('gulp-util')
 
 var pool = {}
 
@@ -25,21 +24,20 @@ entries.forEach(function (file, i) {
   write(file, i)
 })
 
-test('watch', function(t, cb) {
+test('watch', function(t) {
   var changeNum = 3
+  t.plan((changeNum + 1) * 2)
   var factorOpts = {
     common: 'c.js',
     needFactor: true,
   }
   reduce.watch()
-    .on('change', next)
-    .on('log', gutil.log.bind(gutil))
-    .on('error', gutil.log.bind(gutil))
+    .on('error', console.log.bind(console))
+    .on('done', next)
     .src(['a.js', 'b.js'], { basedir: src(), factor: factorOpts })
     .pipe(gulp.dest, dest())
 
   function next() {
-    var self = this
     var c = readDest('c.js')
     t.equal(
       run(c + readDest('a.js')),
@@ -49,20 +47,17 @@ test('watch', function(t, cb) {
       run(c + readDest('b.js')),
       pool.b + pool.c
     )
-    change(self)
+    setTimeout(change.bind(this), 50)
   }
 
-  function change(w) {
+  function change() {
     if (!changeNum--) {
-      w.close()
-      return cb()
+      return this.close()
     }
-    setTimeout(function() {
-      var file = [src('c.js')].concat(entries)[changeNum % 3]
-      var k = path.basename(file, '.js')
-      var n = Math.floor(Math.random() * 10) + 1 + pool[k]
-      write(file, n)
-    }, 200)
+    var file = [src('c.js')].concat(entries)[changeNum % 3]
+    var k = path.basename(file, '.js')
+    var n = Math.floor(Math.random() * 10) + 1 + pool[k]
+    write(file, n)
   }
 
 })
