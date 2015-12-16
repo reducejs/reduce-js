@@ -1,4 +1,4 @@
-var reduce = require('..')
+var reduce = require('../..')
 var path = require('path')
 
 var basedir = path.join(__dirname, 'src')
@@ -9,20 +9,19 @@ var factorOpts = {
 
 var del = require('del')
 
-reduce.run([clean, bundle])
+reduce.run([clean, bundle]).then(function () {
+  console.log('DONE')
+})
 
 function clean() {
   return del(path.join(__dirname, 'build'))
 }
 
 function bundle() {
-  reduce.watch()
-    .on('done', function () {
-      console.log('New Bundle created')
-    })
+  return reduce
     .on('log', console.log.bind(console))
     .on('error', console.log.bind(console))
     .src('*.js', { basedir: basedir, factor: factorOpts })
-    .pipe(reduce.dest, 'build')
+    .pipe(reduce.dest('build'))
 }
 
