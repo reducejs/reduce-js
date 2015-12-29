@@ -1,4 +1,20 @@
-<!-- 8595c40 1450087279000 -->
+<!-- d0cd108 1451384480000 -->
+
+## [v5.0.0](https://github.com/zoubin/reduce-js/commit/d0cd108) (2015-12-29)
+
+* [[`22f122f`](https://github.com/zoubin/reduce-js/commit/22f122f)] Fix readme
+
+* [[`a906e63`](https://github.com/zoubin/reduce-js/commit/a906e63)] Update common-bundle
+
+* [[`5e7d7a5`](https://github.com/zoubin/reduce-js/commit/5e7d7a5)] Compatible with non-pattern entries
+
+* [[`7744a74`](https://github.com/zoubin/reduce-js/commit/7744a74)] Fix keywords
+
+* [[`85fa005`](https://github.com/zoubin/reduce-js/commit/85fa005)] Use common-bundle instead of factor-vinylify
+
+* [[`54304e6`](https://github.com/zoubin/reduce-js/commit/54304e6)] Add more examples
+
+* [[`1e14f57`](https://github.com/zoubin/reduce-js/commit/1e14f57)] CHANGELOG
 
 ## [v4.0.0](https://github.com/zoubin/reduce-js/commit/8595c40) (2015-12-14)
 
