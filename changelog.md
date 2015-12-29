@@ -1,4 +1,10 @@
-<!-- d0cd108 1451384480000 -->
+<!-- 6e9567d 1451384959000 -->
+
+## [v5.0.1](https://github.com/zoubin/reduce-js/commit/6e9567d) (2015-12-29)
+
+* [[`1bb5ff9`](https://github.com/zoubin/reduce-js/commit/1bb5ff9)] Fix sugar constructor Reduce
+
+* [[`754c878`](https://github.com/zoubin/reduce-js/commit/754c878)] CHANGELOG
 
 ## [v5.0.0](https://github.com/zoubin/reduce-js/commit/d0cd108) (2015-12-29)
 
