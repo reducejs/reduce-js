@@ -14,9 +14,8 @@ A sugar wrapper for [`browserify`].
 * Use [`common-bundle`] to pack modules by default.
 * Easy to work with [`gulp`].
 
-## Examples
-
-Check [examples](example/).
+## Example
+Check more [examples](example/).
 
 ```javascript
 var gulp = require('gulp')
@@ -72,25 +71,29 @@ function src(r) {
 Create a stream flowing [`vinyl`] file objects,
 which represents bundles created.
 
-#### patterns
+**patterns**
+
 Type: `String`, `Array`
 
 Used by [`globby`] to locate entries.
 
-#### bopts
+**bopts**
+
 Options to create the [`browserify`] instance.
 
 Fields not explained in the following sections
 are the same with [`browserify`].
 
-#### basedir
+**basedir**
+
 Type: `String`
 
 Default: `process.cwd()`
 
 Used as the `cwd` field of the options passed to [`globby`].
 
-#### bundleOptions
+**bundleOptions**
+
 Type: `Object`
 
 Options passed to [`common-bundle`].
@@ -138,7 +141,7 @@ reduce.on('instance', function (b) {
 
 `reduce.watch().on('instance', (b) => {})`
 
-## Without Gulp
+## Without [`gulp`]
 If you are not using [`gulp`],
 use `reduce.dest` instead of [`gulp.dest`] to write bundles into the disk.
 Also, you can use `reduce.run` to run the task.

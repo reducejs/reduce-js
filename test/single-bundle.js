@@ -28,7 +28,8 @@ function clean() {
 }
 
 function bundle() {
-  return reduce.src('*.js', {
+  return reduce.src({
+    entries: ['green.js', 'red.js'],
     basedir: fixtures('src', 'single-bundle'),
     //bundleOptions: 'bundle.js',
   })
