@@ -7,7 +7,7 @@
 
 A sugar wrapper for [`browserify`].
 
-**Feature**:
+**Features**:
 
 * Accept patterns for detecting entries.
 * Use [`watchify`] to update bundles whenever file changes. And new entries can be detected (in progress).
@@ -84,7 +84,7 @@ Options to create the [`browserify`] instance.
 Fields not explained in the following sections
 are the same with [`browserify`].
 
-**basedir**
+**bopts.basedir**
 
 Type: `String`
 
@@ -92,7 +92,7 @@ Default: `process.cwd()`
 
 Used as the `cwd` field of the options passed to [`globby`].
 
-**bundleOptions**
+**bopts.bundleOptions**
 
 Type: `Object`
 
