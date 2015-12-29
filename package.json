@@ -14,7 +14,7 @@
   },
   "keywords": [
     "browserify",
-    "factor-bundle",
+    "common-bundle",
     "gulp",
     "watchify"
   ],
