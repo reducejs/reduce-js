@@ -1,1 +1,7 @@
-require=function r(e,o,n){function t(i,f){if(!o[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=o[i]={exports:{}};e[i][0].call(p.exports,function(r){var o=e[i][1][r];return t(o?o:r)},p,p.exports,r,e,o,n)}return o[i].exports}for(var u="function"==typeof require&&require,i=0;i<n.length;i++)t(n[i]);return t}({2:[function(r,e,o){var n=r("colors");e.exports=n.red},{colors:3}]},{},[2]);
+require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({2:[function(require,module,exports){
+var colorMap = require('colors');
+
+module.exports = colorMap.red;
+
+
+},{"colors":3}]},{},[2]);

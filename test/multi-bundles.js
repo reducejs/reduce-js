@@ -1,28 +1,37 @@
 var reduce = require('..')
 var test = require('tap').test
+var fs = require('fs')
 var runSequence = require('callback-sequence').run
 var path = require('path')
 var del = require('del')
-var uglify = require('gulp-uglify')
-var gulp = require('gulp')
-var equal = require('util-equal')
 
 var fixtures = path.resolve.bind(path, __dirname)
-var dest = fixtures.bind(null, 'build', 'multi-bundles')
+var dest = fixtures.bind(null, 'build')
 var expect = fixtures.bind(null, 'expected', 'multi-bundles')
 
 test('multiple bundles', function(t) {
-  t.plan(1)
-  runSequence([clean, bundle]).then(function () {
-    equal(
-      [dest('common.js'), dest('green.js'), dest('red.js')],
-      [expect('common.js'), expect('green.js'), expect('red.js')],
-      function (res) {
-        t.ok(res)
-      }
+  return runSequence([clean, bundle]).then(function () {
+    t.equal(
+      read(dest('common.js')),
+      read(expect('common.js')),
+      'common.js'
+    )
+    t.equal(
+      read(dest('green.js')),
+      read(expect('green.js')),
+      'green.js'
+    )
+    t.equal(
+      read(dest('red.js')),
+      read(expect('red.js')),
+      'red.js'
     )
   })
 })
+
+function read(file) {
+  return fs.readFileSync(file, 'utf8')
+}
 
 function clean() {
   return del(dest())
@@ -31,15 +40,12 @@ function clean() {
 function bundle() {
   var opts = {
     basedir: fixtures('src', 'multi-bundles'),
-    factor: {
-      //entries: ['green.js', 'red.js'],
-      //outputs: ['green.js', 'red.js'],
-      needFactor: true,
+    bundleOptions: {
+      groups: '**/+(green|red).js',
       common: 'common.js',
     },
   }
   return reduce.src('*.js', opts)
-    .pipe(uglify())
-    .pipe(gulp.dest(dest()))
+    .pipe(reduce.dest(dest()))
 }
 

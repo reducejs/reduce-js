@@ -1,16 +1,17 @@
 var reduce = require('../..')
 var path = require('path')
+var gutil = require('gulp-util')
 
 var basedir = path.join(__dirname, 'src')
-var factorOpts = {
-  outputs: ['a.js', 'b.js'],
+var bundleOpts = {
+  groups: '**/+(a|b).js',
   common: 'common.js',
 }
 
 var del = require('del')
 
 reduce.run([clean, bundle]).then(function () {
-  console.log('DONE')
+  gutil.log('DONE')
 })
 
 function clean() {
@@ -19,9 +20,12 @@ function clean() {
 
 function bundle() {
   return reduce
-    .on('log', console.log.bind(console))
-    .on('error', console.log.bind(console))
-    .src('*.js', { basedir: basedir, factor: factorOpts })
+    .on('log', gutil.log.bind(gutil))
+    .on('error', gutil.log.bind(gutil))
+    .src('*.js', {
+      basedir: basedir,
+      bundleOptions: bundleOpts,
+    })
     .pipe(reduce.dest('build'))
 }
 

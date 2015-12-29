@@ -27,14 +27,17 @@ entries.forEach(function (file, i) {
 test('watch', function(t) {
   var changeNum = 3
   t.plan((changeNum + 1) * 2)
-  var factorOpts = {
+  var bundleOptions = {
     common: 'c.js',
-    needFactor: true,
+    groups: '**/+(a|b).js',
   }
   reduce.watch()
     .on('error', console.log.bind(console))
     .on('done', next)
-    .src(['a.js', 'b.js'], { basedir: src(), factor: factorOpts })
+    .src(['a.js', 'b.js'], {
+      basedir: src(),
+      bundleOptions: bundleOptions,
+    })
     .pipe(gulp.dest, dest())
 
   function next() {
