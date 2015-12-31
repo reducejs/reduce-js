@@ -1,4 +1,12 @@
-<!-- 6e9567d 1451384959000 -->
+<!-- 55aab48 1451549173000 -->
+
+## [v5.0.2](https://github.com/zoubin/reduce-js/commit/55aab48) (2015-12-31)
+
+* [[`ca02f96`](https://github.com/zoubin/reduce-js/commit/ca02f96)] Update tap
+
+* [[`01d7b58`](https://github.com/zoubin/reduce-js/commit/01d7b58)] Allow null entries
+
+* [[`6bfd10e`](https://github.com/zoubin/reduce-js/commit/6bfd10e)] CHANGELOG
 
 ## [v5.0.1](https://github.com/zoubin/reduce-js/commit/6e9567d) (2015-12-29)
 
