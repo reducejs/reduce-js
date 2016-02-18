@@ -1,4 +1,16 @@
-<!-- 55aab48 1451549173000 -->
+<!-- 91087c3 1455777664000 -->
+
+## [v7.0.0](https://github.com/reducejs/reduce-js/commit/91087c3) (2016-02-18)
+
+* [[`8ab74ad`](https://github.com/reducejs/reduce-js/commit/8ab74ad)] update watchify2
+
+* [[`449bd46`](https://github.com/reducejs/reduce-js/commit/449bd46)] Use watchify2
+
+## [v6.0.0](https://github.com/reducejs/reduce-js/commit/cd80d02) (2016-01-18)
+
+* [[`0cf0d3f`](https://github.com/reducejs/reduce-js/commit/0cf0d3f)] Update browserify, tap
+
+* [[`4b062ef`](https://github.com/reducejs/reduce-js/commit/4b062ef)] CHANGELOG
 
 ## [v5.0.2](https://github.com/zoubin/reduce-js/commit/55aab48) (2015-12-31)
 
