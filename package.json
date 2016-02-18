@@ -20,6 +20,9 @@
   ],
   "author": "zoubin",
   "license": "MIT",
+  "engines": {
+    "node": ">=4.2.1"
+  },
   "bugs": {
     "url": "https://github.com/reducejs/reduce-js/issues"
   },
@@ -27,7 +30,7 @@
   "dependencies": {
     "browserify": "^13.0.0",
     "callback-sequence": "^3.2.0",
-    "common-bundle": "^0.1.2",
+    "common-bundle": "^0.2.1",
     "globby": "^4.0.0",
     "lazypipe": "^1.0.1",
     "mixy": "^1.0.0",
