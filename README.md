@@ -10,7 +10,7 @@ A sugar wrapper for [`browserify`].
 **Features**:
 
 * Accept patterns for detecting entries.
-* Use [`watchify`] to update bundles whenever file changes. And new entries can be detected (in progress).
+* Use [`watchify2`] to update bundles whenever file changes. And new entries can be detected.
 * Use [`common-bundle`] to pack modules by default.
 * Easy to work with [`gulp`].
 
@@ -186,6 +186,7 @@ function bundle() {
 [`gulp`]: https://www.npmjs.com/package/gulp
 [`globby`]: https://github.com/sindresorhus/globby
 [`watchify`]: https://github.com/substack/watchify
+[`watchify2`]: https://github.com/reducejs/watchify2
 [`lazypipe`]: https://github.com/OverZealous/lazypipe
 [`gulp.dest`]: https://github.com/gulpjs/gulp/blob/master/docs/API.md#gulpdestpath-options
 [`callback-sequence#run`]: https://github.com/zoubin/callback-sequence#sequenceruncallbacks-done
