@@ -1,9 +1,8 @@
 # reduce-js
 [![version](https://img.shields.io/npm/v/reduce-js.svg)](https://www.npmjs.org/package/reduce-js)
-[![status](https://travis-ci.org/zoubin/reduce-js.svg?branch=master)](https://travis-ci.org/zoubin/reduce-js)
-[![coverage](https://img.shields.io/coveralls/zoubin/reduce-js.svg)](https://coveralls.io/github/zoubin/reduce-js)
-[![dependencies](https://david-dm.org/zoubin/reduce-js.svg)](https://david-dm.org/zoubin/reduce-js)
-[![devDependencies](https://david-dm.org/zoubin/reduce-js/dev-status.svg)](https://david-dm.org/zoubin/reduce-js#info=devDependencies)
+[![status](https://travis-ci.org/reducejs/reduce-js.svg?branch=master)](https://travis-ci.org/reducejs/reduce-js)
+[![dependencies](https://david-dm.org/reducejs/reduce-js.svg)](https://david-dm.org/reducejs/reduce-js)
+[![devDependencies](https://david-dm.org/reducejs/reduce-js/dev-status.svg)](https://david-dm.org/reducejs/reduce-js#info=devDependencies)
 
 A sugar wrapper for [`browserify`].
 
