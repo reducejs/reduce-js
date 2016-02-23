@@ -4,9 +4,10 @@
   "description": "Use browserify and factor-bundle to pack node-style modules into a single bundle or multiple bundles",
   "main": "index.js",
   "scripts": {
-    "test": "npm run lint && tap --cov test/*.js",
+    "test": "npm run lint && tap test/*.js",
+    "cov": "tap --cov test/*.js",
     "lint": "eslint *.js 'lib/**/*.js' test/*.js bin/*.js",
-    "coveralls": "COVERALLS_REPO_TOKEN=UqpxOJzuPfYfmsuvJ1Sxyx4WW4tDL7rEV npm test"
+    "coveralls": "COVERALLS_REPO_TOKEN=UqpxOJzuPfYfmsuvJ1Sxyx4WW4tDL7rEV npm run cov"
   },
   "repository": {
     "type": "git",
@@ -28,22 +29,17 @@
   },
   "homepage": "https://github.com/reducejs/reduce-js#readme",
   "dependencies": {
-    "browserify": "^13.0.0",
-    "callback-sequence": "^3.2.0",
     "common-bundle": "^0.2.1",
-    "globby": "^4.0.0",
-    "lazypipe": "^1.0.1",
-    "mixy": "^1.0.0",
-    "through2": "^2.0.0",
     "vinyl-fs": "^2.2.1",
     "vinyl-source-stream": "^1.1.0",
     "watchify2": "^0.1.0"
   },
   "devDependencies": {
+    "browserify": "^13.0.0",
+    "callback-sequence": "^3.2.0",
     "del": "^2.0.2",
     "eslint": "^2.1.0",
     "gulp": "^3.9.0",
-    "gulp-util": "^3.0.7",
     "mkdirp": "^0.5.1",
     "tap": "^5.0.0"
   }

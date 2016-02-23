@@ -1,13 +1,16 @@
-var reduce = require('..')
-var fs = require('fs')
-var test = require('tap').test
-var runSequence = require('callback-sequence').run
-var path = require('path')
-var del = require('del')
+'use strict'
 
-var fixtures = path.resolve.bind(path, __dirname)
-var dest = fixtures.bind(null, 'build')
-var expect = fixtures.bind(null, 'expected', 'single-bundle')
+const reduce = require('..')
+const fs = require('fs')
+const test = require('tap').test
+const runSequence = require('callback-sequence').run
+const path = require('path')
+const del = require('del')
+const browserify = require('browserify')
+
+const fixtures = path.resolve.bind(path, __dirname)
+const dest = fixtures.bind(null, 'build')
+const expect = fixtures.bind(null, 'expected', 'single-bundle')
 
 test('single bundle', function(t) {
   return runSequence([clean, bundle]).then(function () {
@@ -28,11 +31,10 @@ function clean() {
 }
 
 function bundle() {
-  return reduce.src({
-    entries: ['green.js', 'red.js'],
-    basedir: fixtures('src', 'single-bundle'),
-    //bundleOptions: 'bundle.js',
-  })
-  .pipe(reduce.dest(dest()))
+  let basedir = fixtures('src', 'single-bundle')
+  let b = browserify({ basedir: basedir })
+  return reduce.src(['green.js', 'red.js'], { cwd: basedir })
+    .pipe(reduce.bundle(b))
+    .pipe(reduce.dest(dest()))
 }
 
