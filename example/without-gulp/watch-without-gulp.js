@@ -1,32 +1,31 @@
-var reduce = require('../..')
-var path = require('path')
-var gutil = require('gulp-util')
+'use strict'
 
-var basedir = path.join(__dirname, 'src')
-var bundleOpts = {
-  groups: '**/+(a|b).js',
-  common: 'common.js',
-}
+const reduce = require('../..')
+const path = require('path')
+const run = require('callback-sequence').run
+const browserify = require('browserify')
 
-var del = require('del')
-
-reduce.run([clean, bundle])
+run([clean, bundle])
 
 function clean() {
+  let del = require('del')
   return del(path.join(__dirname, 'build'))
 }
 
 function bundle() {
-  reduce.watch()
-    .on('done', function () {
-      gutil.log('DONE')
-    })
-    .on('log', gutil.log.bind(gutil))
-    .on('error', gutil.log.bind(gutil))
-    .src('*.js', {
-      basedir: basedir,
-      bundleOptions: bundleOpts,
-    })
+  let basedir = path.join(__dirname, 'src')
+  let b = browserify({ basedir: basedir })
+
+  b.on('log', console.log.bind(console))
+  b.on('error', console.log.bind(console))
+
+ let bundleOpts = {
+    groups: '**/+(a|b|d).js',
+    common: 'common.js',
+  }
+
+  reduce.src('*.js', { cwd: basedir })
+    .pipe(reduce.watch(b, bundleOpts, { entryGlob: '*.js' }))
     .pipe(reduce.dest, 'build')
 }
 

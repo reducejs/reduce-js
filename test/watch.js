@@ -1,47 +1,45 @@
-var reduce = require('..')
-var test = require('tap').test
+'use strict'
 
-var vm = require('vm')
-var mkdirp = require('mkdirp')
-var path = require('path')
-var fs = require('fs')
+const reduce = require('..')
+const test = require('tap').test
+const vm = require('vm')
+const mkdirp = require('mkdirp')
+const path = require('path')
+const fs = require('fs')
+const browserify = require('browserify')
 
-var os = require('os')
-var tmpdir = path.join((os.tmpdir || os.tmpDir)(), 'reduce-' + Math.random())
-var src = path.resolve.bind(path, tmpdir, 'src')
-var dest = path.resolve.bind(path, tmpdir, 'build')
-var gulp = require('gulp')
-
-var pool = {}
+const os = require('os')
+const tmpdir = path.join((os.tmpdir || os.tmpDir)(), 'reduce-' + Math.random())
+const src = path.resolve.bind(path, tmpdir, 'src')
+const dest = path.resolve.bind(path, tmpdir, 'build')
+const pool = {}
 
 mkdirp.sync(tmpdir)
 mkdirp.sync(src())
 mkdirp.sync(dest())
 write(src('c.js'), 1)
 
-var entries = [src('a.js'), src('b.js')]
+const entries = [src('a.js'), src('b.js')]
 entries.forEach(function (file, i) {
   write(file, i)
 })
 
 test('watch', function(t) {
-  var changeNum = 3
+  let changeNum = 3
   t.plan((changeNum + 1) * 2)
-  var bundleOptions = {
-    common: 'c.js',
-    groups: '**/+(a|b).js',
-  }
-  reduce.watch()
-    .on('error', console.log.bind(console))
-    .on('done', next)
-    .src(['a.js', 'b.js'], {
-      basedir: src(),
-      bundleOptions: bundleOptions,
-    })
-    .pipe(gulp.dest, dest())
+
+  let basedir = src()
+  let b = browserify({ basedir: basedir })
+  b.on('done', next)
+  reduce.src(['a.js', 'b.js'], { cwd: basedir })
+    .pipe(reduce.watch(b, {
+      common: 'c.js',
+      groups: '**/+(a|b).js',
+    }))
+    .pipe(reduce.dest, dest())
 
   function next() {
-    var c = readDest('c.js')
+    let c = readDest('c.js')
     t.equal(
       run(c + readDest('a.js')),
       pool.a + pool.c
@@ -57,16 +55,16 @@ test('watch', function(t) {
     if (!changeNum--) {
       return this.close()
     }
-    var file = [src('c.js')].concat(entries)[changeNum % 3]
-    var k = path.basename(file, '.js')
-    var n = Math.floor(Math.random() * 10) + 1 + pool[k]
+    let file = [src('c.js')].concat(entries)[changeNum % 3]
+    let k = path.basename(file, '.js')
+    let n = Math.floor(Math.random() * 10) + 1 + pool[k]
     write(file, n)
   }
 
 })
 
 function run (s) {
-  var output = 0
+  let output = 0
   vm.runInNewContext(s, {
     console: {
       log: function (msg) {
@@ -78,9 +76,9 @@ function run (s) {
 }
 
 function write(file, n) {
-  var base = path.basename(file, '.js')
+  let base = path.basename(file, '.js')
   pool[base] = n
-  var content = (base === 'c' ? '' : 'require("./c.js");') + 'console.log(' + n + ')' + '// ' + file
+  let content = (base === 'c' ? '' : 'require("./c.js");') + 'console.log(' + n + ')' + '// ' + file
   fs.writeFileSync(file, content)
 }
 

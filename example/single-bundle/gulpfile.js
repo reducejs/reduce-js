@@ -1,35 +1,39 @@
-var reduce = require('../..')
-var gulp = require('gulp')
-var path = require('path')
-var del = require('del')
-var gutil = require('gulp-util')
+'use strict'
+
+const reduce = require('../..')
+const gulp = require('gulp')
+const path = require('path')
+const del = require('del')
+const browserify = require('browserify')
 
 gulp.task('clean', function () {
   return del(path.join(__dirname, 'build'))
 })
 
 gulp.task('build', ['clean'], function () {
-  return src(reduce)
+  let b = createBundler()
+  return gulp.src('page/**/index.js', { cwd: b._options.basedir, read: false })
+  .pipe(reduce.bundle(b))
     .pipe(gulp.dest('build'))
 })
 
 gulp.task('watch', ['clean'], function (cb) {
-  return src(reduce.watch())
+  let b = createBundler()
+  gulp.src('page/**/index.js', { cwd: b._options.basedir, read: false })
+    .pipe(reduce.watch(b, null, { entryGlob: 'page/**/index.js' }))
     .pipe(gulp.dest, 'build')
 })
 
-function src(r) {
-  r.on('log', function (msg) {
-    gutil.log(msg)
+function createBundler() {
+  let basedir = path.join(__dirname, 'src')
+  let b = browserify({
+    basedir: basedir,
+    paths: [path.join(basedir, 'web_modules')],
   })
-  r.on('error', function (err) {
-    gutil.log(err.stack)
-  })
-  return r.src({
-    entries: ['page/hello/index.js', 'page/hi/index.js'],
-    bundleOptions: 'bundle.js',
-    basedir: path.join(__dirname, 'src'),
-    paths: [path.join(__dirname, 'src', 'web_modules')],
-  })
+
+  b.on('log', console.log.bind(console))
+  b.on('error', console.log.bind(console))
+
+  return b
 }
 

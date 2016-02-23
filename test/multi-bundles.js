@@ -1,13 +1,16 @@
-var reduce = require('..')
-var test = require('tap').test
-var fs = require('fs')
-var runSequence = require('callback-sequence').run
-var path = require('path')
-var del = require('del')
+'use strict'
 
-var fixtures = path.resolve.bind(path, __dirname)
-var dest = fixtures.bind(null, 'build')
-var expect = fixtures.bind(null, 'expected', 'multi-bundles')
+const reduce = require('..')
+const test = require('tap').test
+const fs = require('fs')
+const runSequence = require('callback-sequence').run
+const browserify = require('browserify')
+const path = require('path')
+const del = require('del')
+
+const fixtures = path.resolve.bind(path, __dirname)
+const dest = fixtures.bind(null, 'build')
+const expect = fixtures.bind(null, 'expected', 'multi-bundles')
 
 test('multiple bundles', function(t) {
   return runSequence([clean, bundle]).then(function () {
@@ -38,14 +41,13 @@ function clean() {
 }
 
 function bundle() {
-  var opts = {
-    basedir: fixtures('src', 'multi-bundles'),
-    bundleOptions: {
+  let basedir = fixtures('src', 'multi-bundles')
+  let b = browserify({ basedir: basedir })
+  return reduce.src('*.js', { cwd: basedir })
+    .pipe(reduce.bundle(b, {
       groups: '**/+(green|red).js',
       common: 'common.js',
-    },
-  }
-  return reduce.src('*.js', opts)
+    }))
     .pipe(reduce.dest(dest()))
 }
 
