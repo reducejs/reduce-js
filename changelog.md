@@ -1,4 +1,10 @@
-<!-- 5359ad1 1455785018000 -->
+<!-- c8e5be2 1456230508000 -->
+
+## [v8.0.0](https://github.com/reducejs/reduce-js/commit/c8e5be2) (2016-02-23)
+
+* [[`54ce9f4`](https://github.com/reducejs/reduce-js/commit/54ce9f4)] Refactor: simple API
+
+* [[`24347b0`](https://github.com/reducejs/reduce-js/commit/24347b0)] changelog
 
 ## [v7.0.2](https://github.com/reducejs/reduce-js/commit/5359ad1) (2016-02-18)
 
