@@ -53,9 +53,11 @@ exports.watch = function (b, opts, wopts) {
       bundle()
     },
   })
-  output.pipe = function () {
+  output.lazypipe = function () {
     transform.push(arguments)
+    return this
   }
+  output.pipe = output.lazypipe
 
   b.plugin(require('watchify2'), wopts)
 
