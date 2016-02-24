@@ -1,4 +1,14 @@
-<!-- c8e5be2 1456230508000 -->
+<!-- 7999b39 1456286542000 -->
+
+## [v8.0.1](https://github.com/reducejs/reduce-js/commit/7999b39) (2016-02-24)
+
+* [[`f20870e`](https://github.com/reducejs/reduce-js/commit/f20870e)] Fix: watch output.pipe should be chainable
+
+* [[`7192f8e`](https://github.com/reducejs/reduce-js/commit/7192f8e)] Update README.md
+
+* [[`de82fb2`](https://github.com/reducejs/reduce-js/commit/de82fb2)] Update README.md
+
+* [[`42f77d3`](https://github.com/reducejs/reduce-js/commit/42f77d3)] changelog
 
 ## [v8.0.0](https://github.com/reducejs/reduce-js/commit/c8e5be2) (2016-02-23)
 
