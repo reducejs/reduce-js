@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/reducejs/reduce-js#readme",
   "dependencies": {
-    "common-bundle": "^0.2.1",
+    "common-bundle": "^0.3.0",
     "vinyl-fs": "^2.2.1",
     "vinyl-source-stream": "^1.1.0",
     "watchify2": "^0.1.0"
