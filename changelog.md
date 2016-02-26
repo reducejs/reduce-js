@@ -1,4 +1,10 @@
-<!-- 7999b39 1456286542000 -->
+<!-- 9d0e9bc 1456482532000 -->
+
+## [v8.1.0](https://github.com/reducejs/reduce-js/commit/9d0e9bc) (2016-02-26)
+
+* [[`92b35f6`](https://github.com/reducejs/reduce-js/commit/92b35f6)] Update: common-bundle
+
+* [[`16bb62a`](https://github.com/reducejs/reduce-js/commit/16bb62a)] changelog
 
 ## [v8.0.1](https://github.com/reducejs/reduce-js/commit/7999b39) (2016-02-24)
 
