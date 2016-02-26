@@ -34,7 +34,7 @@ Return a transform:
 Options passed to `reduce.bundler`.
 
 
-```js
+```javascript
 'use strict'
 
 const reduce = require('reduce-js')
@@ -70,7 +70,7 @@ function bundle() {
 ```
 
 Work with [`gulp`]:
-```js
+```javascript
 'use strict'
 
 const reduce = require('reduce-js')
@@ -117,7 +117,7 @@ Return a transform:
 Options passed to [`watchify2`].
 
 
-```js
+```javascript
 'use strict'
 
 const reduce = require('../..')
@@ -154,7 +154,7 @@ function bundle() {
 ```
 
 Work with [`gulp`]:
-```js
+```javascript
 'use strict'
 
 const reduce = require('reduce-js')
@@ -209,13 +209,9 @@ Default: `bundle.js`
 [`browserify`]: https://www.npmjs.com/package/browserify
 [`factor-bundle`]: https://www.npmjs.com/package/factor-bundle
 [`common-bundle`]: https://www.npmjs.com/package/common-bundle
-[`vinyl`]: https://www.npmjs.com/package/vinyl
 [`gulp`]: https://www.npmjs.com/package/gulp
 [`watchify`]: https://github.com/substack/watchify
 [`watchify2`]: https://github.com/reducejs/watchify2
-[`lazypipe`]: https://github.com/OverZealous/lazypipe
-[`gulp.dest`]: https://github.com/gulpjs/gulp/blob/master/docs/API.md#gulpdestpath-options
-[`callback-sequence#run`]: https://github.com/zoubin/callback-sequence#sequenceruncallbacks-done
 [`vinyl-fs#src`]: https://github.com/gulpjs/vinyl-fs#srcglobs-options
 [`vinyl-fs#dest`]: https://github.com/gulpjs/vinyl-fs#destfolder-options
 
