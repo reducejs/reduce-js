@@ -13,9 +13,63 @@ Augment [`browserify`] with the following features:
   which make `b.bundle()` output a stream manipulatable by [`gulp`] plugins.
   It can be replaced with other plugins like [`factor-bundle`].
 
-## API
+## Example
+Check the [gulpfile.js](example/multiple-bundles/gulpfile.js)
 
 ```js
+'use strict'
+
+const reduce = require('reduce-js')
+const gulp = require('gulp')
+const path = require('path')
+const del = require('del')
+const browserify = require('browserify')
+
+gulp.task('clean', function () {
+  return del(path.join(__dirname, 'build'))
+})
+
+gulp.task('build', ['clean'], function () {
+  let b = createBundler()
+  return gulp.src('page/**/index.js', { cwd: b._options.basedir, read: false })
+    .pipe(reduce.bundle(b, {
+      groups: 'page/**/index.js',
+      common: 'common.js',
+    }))
+    .pipe(gulp.dest('build'))
+})
+
+gulp.task('watch', ['clean'], function (cb) {
+  let b = createBundler()
+  b.on('bundle-stream', function (bundleStream) {
+    // `bundleStream` is the result of `b.bundle()`
+    bundleStream.pipe(gulp.dest('build'))
+  })
+  gulp.src('page/**/index.js', { cwd: b._options.basedir, read: false })
+    .pipe(reduce.watch(b, {
+      groups: 'page/**/index.js',
+      common: 'common.js',
+    }, { entryGlob: 'page/**/index.js' }))
+})
+
+function createBundler() {
+  let basedir = path.join(__dirname, 'src')
+  let b = browserify({
+    basedir: basedir,
+    paths: [path.join(basedir, 'web_modules')],
+  })
+
+  b.on('log', console.log.bind(console))
+  b.on('error', console.log.bind(console))
+
+  return b
+}
+
+```
+
+## API
+
+```javascript
 const reduce = require('reduce-js')
 
 ```
@@ -39,66 +93,17 @@ Options passed to `reduce.bundler`.
 
 const reduce = require('reduce-js')
 const path = require('path')
-const run = require('callback-sequence').run
 const browserify = require('browserify')
 
-run([clean, bundle]).then(() => { console.log('DONE') })
+const basedir = path.join(__dirname, 'src')
+const b = browserify({ basedir: basedir })
 
-function clean() {
-  let del = require('del')
-  return del(path.join(__dirname, 'build'))
-}
-
-function bundle() {
-  let basedir = path.join(__dirname, 'src')
-  let b = browserify({
-    basedir: basedir,
-    paths: [path.join(basedir, 'web_modules')],
-  })
-
-  b.on('log', console.log.bind(console))
-  b.on('error', console.log.bind(console))
-
-  return reduce.src('*.js', { cwd: basedir })
-    .pipe(reduce.bundle(b, {
-      groups: '**/page/**/index.js',
-      common: 'common.js',
-    }))
-    .pipe(reduce.dest('build'))
-}
-
-```
-
-Work with [`gulp`]:
-```javascript
-'use strict'
-
-const reduce = require('reduce-js')
-const gulp = require('gulp')
-const path = require('path')
-const del = require('del')
-const browserify = require('browserify')
-
-gulp.task('clean', function () {
-  return del(path.join(__dirname, 'build'))
-})
-
-gulp.task('build', ['clean'], function () {
-  let basedir = path.join(__dirname, 'src')
-  let b = browserify({
-    basedir: basedir,
-    paths: [path.join(basedir, 'web_modules')],
-  })
-
-  b.on('log', console.log.bind(console))
-  b.on('error', console.log.bind(console))
-  return gulp.src('page/**/index.js', { cwd: b._options.basedir, read: false })
-    .pipe(reduce.bundle(b, {
-      groups: '**/page/**/index.js',
-      common: 'common.js',
-    }))
-    .pipe(gulp.dest('build'))
-})
+reduce.src('*.js', { cwd: basedir })
+  .pipe(reduce.bundle(b, {
+    groups: '+(a|b).js',
+    common: 'common.js',
+  }))
+  .pipe(reduce.dest('build'))
 
 ```
 
@@ -120,73 +125,25 @@ Options passed to [`watchify2`].
 ```javascript
 'use strict'
 
-const reduce = require('../..')
-const path = require('path')
-const run = require('callback-sequence').run
-const browserify = require('browserify')
-
-run([clean, bundle])
-
-function clean() {
-  let del = require('del')
-  return del(path.join(__dirname, 'build'))
-}
-
-function bundle() {
-  let basedir = path.join(__dirname, 'src')
-  let b = browserify({
-    basedir: basedir,
-    paths: [path.join(basedir, 'web_modules')],
-  })
-
-  b.on('log', console.log.bind(console))
-  b.on('error', console.log.bind(console))
-
-  return reduce.src('*.js', { cwd: basedir })
-    .pipe(reduce.watch(b, {
-      groups: '**/page/**/index.js',
-      common: 'common.js',
-    }, { entryGlob: 'page/**/index.js' }))
-    // Constructors are required rather than stream objects.
-    .pipe(reduce.dest, 'build')
-}
-
-```
-
-Work with [`gulp`]:
-```javascript
-'use strict'
-
 const reduce = require('reduce-js')
-const gulp = require('gulp')
 const path = require('path')
-const del = require('del')
 const browserify = require('browserify')
 
-gulp.task('clean', function () {
-  return del(path.join(__dirname, 'build'))
+const basedir = path.join(__dirname, 'src')
+const b = browserify({ basedir: basedir })
+
+b.on('bundle-stream', function (bundleStream) {
+  // `bundleStream` is the result of `b.bundle()`
+  bundleStream.pipe(reduce.dest('build'))
 })
-
-gulp.task('watch', ['clean'], function (cb) {
-  let basedir = path.join(__dirname, 'src')
-  let b = browserify({
-    basedir: basedir,
-    paths: [path.join(basedir, 'web_modules')],
-  })
-
-  b.on('log', console.log.bind(console))
-  b.on('error', console.log.bind(console))
-
-  gulp.src('page/**/index.js', { cwd: b._options.basedir, read: false })
-    .pipe(reduce.watch(b, {
-      groups: '**/page/**/index.js',
-      common: 'common.js',
-    }, { entryGlob: 'page/**/index.js' }))
-    // Constructors are required rather than stream objects.
-    .pipe(gulp.dest, 'build')
-})
+reduce.src('*.js', { cwd: basedir })
+  .pipe(reduce.watch(b, {
+    groups: '+(a|b|d).js',
+    common: 'common.js',
+  }, { entryGlob: '*.js' }))
 
 ```
+
 ### reduce.src(patterns, opts)
 Same with [`vinyl-fs#src`], except that `opts.read` defaults to `false`.
 
@@ -200,12 +157,54 @@ The default plugin for packing modules.
 
 Default: `bundle.js`
 
-* `Function` or `Array`: `b.plugin(opts)` will be executed.
-* `false`: no extra plugin is applied.
-* `String`: modules are packed into a single bundle, and `opts` is its file path.
-* otherwise: `opts` is passed to [`common-bundle`].
+* `Function` or `Array`: `b.plugin(opts)` will be executed. Used to replace the default bundler [`common-bundle`].
+* `String`: all modules are packed into a single bundle, with `opts` the file path.
+* otherwise: `opts` is passed to [`common-bundle`] directly.
+
+```js
+const reduce = require('reduce-js')
+const path = require('path')
+const browserify = require('browserify')
+
+const b = browserify({
+  entries: ['a.js', 'b.js'],
+  basedir: '/path/to/src',
+})
+b.plugin(reduce.bundler, 'bundle.js')
+b.bundle().pipe(reduce.dest('build'))
+
+```
+
+### reduce.watcher(b, opts)
+The plugin for watching file changes, addition and deletion.
+
+`opts` is passed to [`watchify2`] directly.
+
+```js
+const reduce = require('reduce-js')
+const path = require('path')
+const browserify = require('browserify')
+const b = browserify({
+  entries: ['a.css', 'b.css'],
+  basedir: '/path/to/src',
+})
+b.plugin(reduce.bundler, 'bundle.js')
+b.plugin(reduce.watcher, { entryGlob: '*.js' })
+b.on('bundle-stream', function (bundleStream) {
+  // bundleStream is the result of `b.bundle()`
+  bundleStream.pipe(reduce.dest('build'))
+})
+b.start()
+
+```
+
+## Related
+
+* [`reduce-css`]
+* [`browserify`]
 
 
+[`reduce-css`]: https://github.com/reducejs/reduce-css
 [`browserify`]: https://www.npmjs.com/package/browserify
 [`factor-bundle`]: https://www.npmjs.com/package/factor-bundle
 [`common-bundle`]: https://www.npmjs.com/package/common-bundle

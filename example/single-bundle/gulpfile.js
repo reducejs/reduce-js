@@ -13,15 +13,17 @@ gulp.task('clean', function () {
 gulp.task('build', ['clean'], function () {
   let b = createBundler()
   return gulp.src('page/**/index.js', { cwd: b._options.basedir, read: false })
-  .pipe(reduce.bundle(b))
+    .pipe(reduce.bundle(b, 'bundle.js'))
     .pipe(gulp.dest('build'))
 })
 
 gulp.task('watch', ['clean'], function (cb) {
   let b = createBundler()
+  b.on('bundle-stream', function (bundleStream) {
+    bundleStream.pipe(gulp.dest('build'))
+  })
   gulp.src('page/**/index.js', { cwd: b._options.basedir, read: false })
-    .pipe(reduce.watch(b, null, { entryGlob: 'page/**/index.js' }))
-    .pipe(gulp.dest, 'build')
+    .pipe(reduce.watch(b, 'bundle.js', { entryGlob: 'page/**/index.js' }))
 })
 
 function createBundler() {

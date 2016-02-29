@@ -3,106 +3,84 @@
 const stream = require('stream')
 const vfs = require('vinyl-fs')
 
-exports.bundle = function (b, opts) {
-  bundler(b, opts)
+function bundler(b, opts) {
+  if (typeof opts === 'function' || Array.isArray(opts)) {
+    return b.plugin(opts)
+  }
 
+  opts = opts || {}
+  if (typeof opts === 'string') {
+    opts = { groups: { output: opts } }
+  }
+  b.plugin(require('common-bundle'), opts)
+}
+
+function through(write, end) {
   return stream.Transform({
     objectMode: true,
+    transform: write,
+    flush: end,
+  })
+}
 
-    transform: function (file, enc, next) {
+function watcher(b, wopts) {
+  b.plugin(require('watchify2'), wopts)
+  let close = b.close
+  b.close = function () {
+    close()
+    b.emit('close')
+  }
+  b.start = function () {
+    b.emit('bundle-stream', b.bundle())
+  }
+  b.on('update', b.start)
+}
+
+function bundle(b, opts) {
+  b.plugin(bundler, opts)
+
+  return through(
+    function (file, enc, next) {
       b.add(file.path)
       next()
     },
-
-    flush: function (next) {
+    function (next) {
       b.bundle()
         .on('data', data => this.push(data))
         .on('end', next)
-        .on('error', b.emit.bind(b))
-    },
-  })
+        .on('error', err => b.emit('error', err))
+    }
+  )
 }
 
-exports.watch = function (b, opts, wopts) {
-  bundler(b, opts)
+function watch(b, opts, wopts) {
+  b.plugin(bundler, opts)
+  b.plugin(watcher, wopts)
 
-  let handleError = b.emit.bind(b)
-  let transform = []
-
-  function bundle() {
-    let s = b.bundle().on('error', handleError)
-    transform.forEach(args => {
-      s = s.pipe(args[0].apply(null, [].slice.call(args, 1)))
-        .on('error', handleError)
-    })
-
-    s.on('end', () => b.emit('done'))
-  }
-
-  let output = stream.Transform({
-    objectMode: true,
-
-    transform: function (file, enc, next) {
+  return through(
+    function (file, enc, next) {
       b.add(file.path)
       next()
     },
-
-    flush: function (next) {
-      next()
-      b.on('update', bundle)
-      bundle()
-    },
-  })
-  output.lazypipe = function () {
-    transform.push(arguments)
-    return this
-  }
-  output.pipe = output.lazypipe
-
-  b.plugin(require('watchify2'), wopts)
-
-  return output
+    function (next) {
+      b.once('close', next)
+      b.start()
+    }
+  )
 }
 
-exports.src = function (pattern, opts) {
+function src(pattern, opts) {
   opts = opts || {}
   opts.read = false
   return vfs.src(pattern, opts)
 }
 
-exports.dest = vfs.dest
-
-exports.bundler = bundler
-
-function bundler(b, opts) {
-  if (opts === false) return
-  if (typeof opts === 'function' || Array.isArray(opts)) {
-    return b.plugin(opts)
-  }
-
-  opts = opts || 'bundle.js'
-  if (typeof opts === 'string') {
-    b.plugin(vinylify, opts)
-  } else {
-    b.plugin(require('common-bundle'), opts)
-  }
-}
-
-function vinylify(b, opts) {
-  const source = require('vinyl-source-stream')
-  function hook() {
-    b.pipeline.push(source(opts))
-    b.pipeline.push(stream.Transform({
-      objectMode: true,
-
-      transform: function (file, enc, next) {
-        b.emit('log', 'bundle: ' + file.relative)
-        next(null, file)
-      },
-    }))
-  }
-
-  b.on('reset', hook)
-  hook()
+module.exports = {
+  bundler,
+  watcher,
+  bundle,
+  watch,
+  dest: vfs.dest,
+  src,
 }
 

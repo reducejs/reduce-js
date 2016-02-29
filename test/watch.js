@@ -25,18 +25,24 @@ entries.forEach(function (file, i) {
 })
 
 test('watch', function(t) {
-  let changeNum = 3
-  t.plan((changeNum + 1) * 2)
+  let count = 4
 
   let basedir = src()
   let b = browserify({ basedir: basedir })
-  b.on('done', next)
+  b.on('bundle-stream', function (bundleStream) {
+    bundleStream.pipe(reduce.dest(dest()))
+      .on('data', () => {})
+      .once('finish', () => setTimeout(next, 50))
+  })
+  b.once('close', function () {
+    t.equal(count, 0)
+    t.end()
+  })
   reduce.src(['a.js', 'b.js'], { cwd: basedir })
     .pipe(reduce.watch(b, {
       common: 'c.js',
-      groups: '**/+(a|b).js',
+      groups: '+(a|b).js',
     }))
-    .pipe(reduce.dest, dest())
 
   function next() {
     let c = readDest('c.js')
@@ -48,14 +54,10 @@ test('watch', function(t) {
       run(c + readDest('b.js')),
       pool.b + pool.c
     )
-    setTimeout(change.bind(this), 50)
-  }
-
-  function change() {
-    if (!changeNum--) {
-      return this.close()
+    if (!--count) {
+      return b.close()
     }
-    let file = [src('c.js')].concat(entries)[changeNum % 3]
+    let file = [src('c.js')].concat(entries)[count % 3]
     let k = path.basename(file, '.js')
     let n = Math.floor(Math.random() * 10) + 1 + pool[k]
     write(file, n)
