@@ -1,4 +1,10 @@
-<!-- 9d0e9bc 1456482532000 -->
+<!-- 2b47c51 1456799938000 -->
+
+## [v9.0.0](https://github.com/reducejs/reduce-js/commit/2b47c51) (2016-03-01)
+
+* [[`f7ce3ca`](https://github.com/reducejs/reduce-js/commit/f7ce3ca)] Refactor: even simpler api
+
+* [[`3f5a583`](https://github.com/reducejs/reduce-js/commit/3f5a583)] changelog
 
 ## [v8.1.0](https://github.com/reducejs/reduce-js/commit/9d0e9bc) (2016-02-26)
 
