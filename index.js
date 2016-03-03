@@ -41,17 +41,17 @@ function bundle(b, opts) {
   b.plugin(bundler, opts)
 
   return through(
-    function (file, enc, next) {
+    function write(file, enc, next) {
       if (file.isNull()) {
         b.add(file.path)
         return next()
       }
 
       if (file.isStream()) {
-        let s = file.contents
-        s.file = file.path
-        b.add(s)
-        return next()
+        return file.contents.pipe(concat(function (buf) {
+          file.contents = buf
+          write(file, enc, next)
+        }))
       }
 
       b.add({
