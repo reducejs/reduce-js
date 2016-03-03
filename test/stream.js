@@ -6,7 +6,6 @@ const test = require('tap').test
 const path = require('path')
 const del = require('del')
 const browserify = require('browserify')
-const source = require('vinyl-source-stream')
 const File = require('vinyl')
 
 const fixtures = path.resolve.bind(path, __dirname)
