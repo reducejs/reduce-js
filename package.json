@@ -30,16 +30,20 @@
   "homepage": "https://github.com/reducejs/reduce-js#readme",
   "dependencies": {
     "common-bundle": "^0.3.0",
+    "concat-stream": "^1.5.1",
     "vinyl-fs": "^2.2.1",
-    "vinyl-source-stream": "^1.1.0",
     "watchify2": "^0.1.0"
   },
   "devDependencies": {
     "browserify": "^13.0.0",
+    "clean-remains": "^0.1.0",
+    "dedupify": "^0.1.0",
     "del": "^2.0.2",
     "eslint": "^2.1.0",
     "gulp": "^3.9.0",
     "mkdirp": "^0.5.1",
-    "tap": "^5.0.0"
+    "tap": "^5.0.0",
+    "vinyl": "^1.1.1",
+    "vinyl-source-stream": "^1.1.0"
   }
 }

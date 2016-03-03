@@ -7,6 +7,7 @@ const mkdirp = require('mkdirp')
 const path = require('path')
 const fs = require('fs')
 const browserify = require('browserify')
+const File = require('vinyl')
 
 const os = require('os')
 const tmpdir = path.join((os.tmpdir || os.tmpDir)(), 'reduce-' + Math.random())
@@ -28,7 +29,12 @@ test('watch', function(t) {
   let count = 4
 
   let basedir = src()
-  let b = browserify({ basedir: basedir })
+  let b = browserify({
+    basedir: basedir,
+    cache: {},
+    packageCache: {},
+    fileCache: {},
+  })
   b.on('bundle-stream', function (bundleStream) {
     bundleStream.pipe(reduce.dest(dest()))
       .on('data', () => {})
@@ -38,11 +44,17 @@ test('watch', function(t) {
     t.equal(count, 0)
     t.end()
   })
-  reduce.src(['a.js', 'b.js'], { cwd: basedir })
-    .pipe(reduce.watch(b, {
-      common: 'c.js',
-      groups: '+(a|b).js',
-    }))
+  let pipeline = reduce.watch(b, {
+    common: 'c.js',
+    groups: '+(a|b).js',
+  })
+
+  pipeline.write(new File({
+    path: basedir + '/a.js',
+    contents: fs.createReadStream(basedir + '/a.js'),
+  }))
+  pipeline.write(new File({ path: basedir + '/b.js' }))
+  pipeline.end()
 
   function next() {
     let c = readDest('c.js')
