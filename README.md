@@ -232,9 +232,6 @@ Options passed to `reduce.bundler`.
 Return a transform:
 * input: [`vinyl-fs#src`]
 * output: actually no data flows out.
-  The `pipe` method is overwritten to accept stream constructors rather than instances,
-  which are used to construct the downstream pipeline for `b.bundle()`.
-  (`pipe` is an alias for `lazypipe`, you could use the latter instead)
 
 `b` and `opts` are the same with `reduce.bundle(b, opts)`
 
