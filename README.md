@@ -262,8 +262,10 @@ The plugin for watching file changes, addition and deletion.
 
 `opts` is passed to [`watchify2`] directly.
 
-A `bundle-stream` event will be triggered on `b` whenever start bundling.
-You can listen to it  to process `b.bundle()`.
+A `bundle-stream` event will be triggered on `b` whenever `b.bundle()` is run,
+and you can listen to it to process `b.bundle()`.
+
+Run `b.start()` to start bundling for the first time.
 
 ## Related
 
