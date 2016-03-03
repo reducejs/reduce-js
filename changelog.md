@@ -1,4 +1,14 @@
-<!-- 2b47c51 1456799938000 -->
+<!-- be80797 1456987948000 -->
+
+## [v9.1.0](https://github.com/reducejs/reduce-js/commit/be80797) (2016-03-03)
+
+* [[`de4c82d`](https://github.com/reducejs/reduce-js/commit/de4c82d)] Fix: same logic
+
+* [[`72c7b96`](https://github.com/reducejs/reduce-js/commit/72c7b96)] eslint
+
+* [[`f0db6e7`](https://github.com/reducejs/reduce-js/commit/f0db6e7)] Feature: bundle and watch support stream and buffer
+
+* [[`2642200`](https://github.com/reducejs/reduce-js/commit/2642200)] changelog
 
 ## [v9.0.0](https://github.com/reducejs/reduce-js/commit/2b47c51) (2016-03-01)
 
