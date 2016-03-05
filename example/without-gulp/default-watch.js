@@ -1,13 +1,12 @@
 'use strict'
 
 const reduce = require('../..')
-const browserify = require('browserify')
 const del = require('del')
 
 const basedir = __dirname + '/src'
 const build = __dirname + '/build'
 del(build).then(function () {
-  let b = browserify({
+  let b = reduce.create({
     basedir,
     cache: {},
     packageCache: {},

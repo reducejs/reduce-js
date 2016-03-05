@@ -5,7 +5,6 @@ const fs = require('fs')
 const test = require('tap').test
 const path = require('path')
 const del = require('del')
-const browserify = require('browserify')
 const File = require('vinyl')
 
 const fixtures = path.resolve.bind(path, __dirname)
@@ -15,7 +14,7 @@ const expect = fixtures.bind(null, 'expected', 'single-bundle')
 test('stream', function(t) {
   del(dest()).then(function () {
     let basedir = fixtures('src', 'single-bundle')
-    let b = browserify({
+    let b = reduce.create({
       basedir: basedir,
       fileCache: {},
     })
