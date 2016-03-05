@@ -1,4 +1,16 @@
-<!-- be80797 1456987948000 -->
+<!-- 19c3a56 1457153822000 -->
+
+## [v9.2.0](https://github.com/reducejs/reduce-js/commit/19c3a56) (2016-03-05)
+
+* [[`d02cf99`](https://github.com/reducejs/reduce-js/commit/d02cf99)] Feature: export browserify
+
+* [[`ee541a2`](https://github.com/reducejs/reduce-js/commit/ee541a2)] readme: typo
+
+* [[`3c9e0ba`](https://github.com/reducejs/reduce-js/commit/3c9e0ba)] readme: typo
+
+* [[`7034089`](https://github.com/reducejs/reduce-js/commit/7034089)] readme: fix typo
+
+* [[`67423e0`](https://github.com/reducejs/reduce-js/commit/67423e0)] changelog
 
 ## [v9.1.0](https://github.com/reducejs/reduce-js/commit/be80797) (2016-03-03)
 
