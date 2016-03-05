@@ -119,5 +119,6 @@ module.exports = {
   watch,
   dest: vfs.dest,
   src,
+  create: require('browserify'),
 }
 

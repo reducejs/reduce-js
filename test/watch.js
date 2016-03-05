@@ -6,7 +6,6 @@ const vm = require('vm')
 const mkdirp = require('mkdirp')
 const path = require('path')
 const fs = require('fs')
-const browserify = require('browserify')
 const File = require('vinyl')
 
 const os = require('os')
@@ -29,7 +28,7 @@ test('watch', function(t) {
   let count = 4
 
   let basedir = src()
-  let b = browserify({
+  let b = reduce.create({
     basedir: basedir,
     cache: {},
     packageCache: {},

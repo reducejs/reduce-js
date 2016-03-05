@@ -4,7 +4,6 @@ const reduce = require('../../..')
 const gulp = require('gulp')
 const path = require('path')
 const del = require('del')
-const browserify = require('browserify')
 
 gulp.task('clean', function () {
   return del(path.join(__dirname, 'build'))
@@ -37,7 +36,7 @@ gulp.task('watch', ['clean'], function (cb) {
 
 function createBundler() {
   let basedir = path.join(__dirname, 'src')
-  let b = browserify({
+  let b = reduce.create({
     basedir: basedir,
     paths: [path.join(basedir, 'web_modules')],
     fileCache: {},

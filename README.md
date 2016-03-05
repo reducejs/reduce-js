@@ -23,13 +23,12 @@ There are alreay `a.js` and `b.js` in `/path/to/src`, and they both depend upon 
 'use strict'
 
 const reduce = require('reduce-js')
-const browserify = require('browserify')
 const del = require('del')
 
 const basedir = __dirname + '/src'
 const build = __dirname + '/build'
 del(build).then(function () {
-  let b = browserify({ basedir: basedir })
+  let b = reduce.create({ basedir: basedir })
 
   // { 'bundle.js': { modules: [ 'b.js', 'a.js', 'c/index.js'  ]  }  }
   b.on('common.map', map => console.log(map))
@@ -48,13 +47,12 @@ To watch file changes, addition and deletion:
 
 const reduce = require('reduce-js')
 const path = require('path')
-const browserify = require('browserify')
 const del = require('del')
 
 const basedir = __dirname + '/src'
 const build = __dirname + '/build'
 del(build).then(function () {
-  let b = browserify({
+  let b = reduce.create({
     basedir,
     cache: {},
     packageCache: {},
@@ -79,13 +77,12 @@ If you don't need the glob, you can always fall back to the default:
 'use strict'
 
 const reduce = require('reduce-js')
-const browserify = require('browserify')
 const del = require('del')
 
 const basedir = __dirname + '/src'
 const build = __dirname + '/build'
 del(build).then(function () {
-  let b = browserify({
+  let b = reduce.create({
     basedir: basedir,
     entries: ['a.js', 'b.js'],
   })
@@ -105,13 +102,12 @@ watch:
 'use strict'
 
 const reduce = require('reduce-js')
-const browserify = require('browserify')
 const del = require('del')
 
 const basedir = __dirname + '/src'
 const build = __dirname + '/build'
 del(build).then(function () {
-  let b = browserify({
+  let b = reduce.create({
     basedir,
     cache: {},
     packageCache: {},
@@ -142,7 +138,6 @@ const reduce = require('reduce-js')
 const gulp = require('gulp')
 const path = require('path')
 const del = require('del')
-const browserify = require('browserify')
 
 gulp.task('clean', function () {
   return del(path.join(__dirname, 'build'))
@@ -180,7 +175,7 @@ gulp.task('watch', ['clean'], function (cb) {
 
 function createBundler() {
   let basedir = path.join(__dirname, 'src')
-  let b = browserify({
+  let b = reduce.create({
     basedir: basedir,
     paths: [path.join(basedir, 'web_modules')],
     fileCache: {},
@@ -213,6 +208,9 @@ function createBundler() {
 const reduce = require('reduce-js')
 
 ```
+
+### reduce.create
+The [`browserify`] constructor.
 
 ### reduce.bundle(b, opts)
 Return a transform:

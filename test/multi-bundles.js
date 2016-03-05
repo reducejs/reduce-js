@@ -3,7 +3,6 @@
 const reduce = require('..')
 const test = require('tap').test
 const fs = require('fs')
-const browserify = require('browserify')
 const path = require('path')
 const del = require('del')
 
@@ -14,7 +13,7 @@ const expect = fixtures.bind(null, 'expected', 'multi-bundles')
 test('multiple bundles', function(t) {
   del(dest()).then(function () {
     let basedir = fixtures('src', 'multi-bundles')
-    let b = browserify({ basedir: basedir })
+    let b = reduce.create({ basedir: basedir })
     reduce.src('*.js', { cwd: basedir })
       .pipe(reduce.bundle(b, {
         groups: '+(green|red).js',
