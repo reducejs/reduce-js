@@ -1,6 +1,7 @@
 # reduce-js
 [![version](https://img.shields.io/npm/v/reduce-js.svg)](https://www.npmjs.org/package/reduce-js)
 [![status](https://travis-ci.org/reducejs/reduce-js.svg?branch=master)](https://travis-ci.org/reducejs/reduce-js)
+[![coverage](https://img.shields.io/coveralls/reducejs/reduce-js.svg)](https://coveralls.io/github/reducejs/reduce-js)
 [![dependencies](https://david-dm.org/reducejs/reduce-js.svg)](https://david-dm.org/reducejs/reduce-js)
 [![devDependencies](https://david-dm.org/reducejs/reduce-js/dev-status.svg)](https://david-dm.org/reducejs/reduce-js#info=devDependencies)
 ![node](https://img.shields.io/node/v/common-bundle.svg)
@@ -11,7 +12,6 @@ Augment [`browserify`] with the following features:
 * Use [`watchify2`] to watch files, which is able to detect new entries.
 * Use [`common-bundle`] to pack modules by default,
   which make `b.bundle()` output a stream manipulatable by [`gulp`] plugins.
-  It can be replaced with other plugins like [`factor-bundle`].
 
 ## Example
 
