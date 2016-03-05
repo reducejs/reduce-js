@@ -17,7 +17,7 @@ Augment [`browserify`] with the following features:
 
 Suppose we want to pack all modules in `/path/to/src` (not including those in its subdirectories) into `/path/to/build/bundle.js`.
 
-There are alreay `a.js` and `b.js` in `/path/to/src`, and they both depend upon `/path/to/src/c/index.js`.
+There are already `a.js` and `b.js` in `/path/to/src`, and they both depend upon `/path/to/src/c/index.js`.
 
 ```js
 'use strict'
