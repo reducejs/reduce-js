@@ -1,6 +1,6 @@
 'use strict'
 
-const reduce = require('../../..')
+const reduce = require('reduce-js')
 const gulp = require('gulp')
 const path = require('path')
 const del = require('del')
