@@ -23,20 +23,16 @@ There are already `a.js` and `b.js` in `/path/to/src`, and they both depend upon
 'use strict'
 
 const reduce = require('reduce-js')
-const del = require('del')
 
 const basedir = __dirname + '/src'
 const build = __dirname + '/build'
-del(build).then(function () {
-  let b = reduce.create({ basedir: basedir })
+const b = reduce.create({ basedir: basedir })
 
-  // { 'bundle.js': { modules: [ 'b.js', 'a.js', 'c/index.js'  ]  }  }
-  b.on('common.map', map => console.log(map))
-
-  reduce.src('*.js', { cwd: basedir })
-    .pipe(reduce.bundle(b, 'bundle.js'))
-    .pipe(reduce.dest(build))
-})
+reduce.src('*.js', { cwd: basedir })
+  .pipe(reduce.bundle(b, 'bundle.js'))
+  .pipe(reduce.dest(build))
+  .on('data', file => console.log('bundle:', file.relative))
+  .on('end', () => console.log('DONE'))
 
 ```
 
@@ -46,28 +42,24 @@ To watch file changes, addition and deletion:
 'use strict'
 
 const reduce = require('reduce-js')
-const path = require('path')
-const del = require('del')
 
 const basedir = __dirname + '/src'
 const build = __dirname + '/build'
-del(build).then(function () {
-  let b = reduce.create({
-    basedir,
-    cache: {},
-    packageCache: {},
-  })
+const b = reduce.create({
+  basedir,
+  cache: {},
+  packageCache: {},
+})
 
-  b.on('common.map', map => console.log(map))
-
-  b.on('bundle-stream', function (bundleStream) {
+reduce.src('*.js', { cwd: basedir })
+  // Now files added in `/path/to/src` will be detected and cause rebundling.
+  .pipe(reduce.watch(b, 'bundle.js', { entryGlob: '*.js' }))
+  .on('bundle', function (bundleStream) {
     // `bundleStream` is the result of `b.bundle()`
     bundleStream.pipe(reduce.dest(build))
+    .on('data', file => console.log('bundle:', file.relative))
+    .on('end', () => console.log('-'.repeat(40)))
   })
-  reduce.src('*.js', { cwd: basedir })
-    // Now files added in `/path/to/src` will be detected and cause rebundling.
-    .pipe(reduce.watch(b, 'bundle.js', { entryGlob: '*.js' }))
-})
 
 ```
 
@@ -77,21 +69,18 @@ If you don't need the glob, you can always fall back to the default:
 'use strict'
 
 const reduce = require('reduce-js')
-const del = require('del')
 
 const basedir = __dirname + '/src'
 const build = __dirname + '/build'
-del(build).then(function () {
-  let b = reduce.create({
-    basedir: basedir,
-    entries: ['a.js', 'b.js'],
-  })
-
-  b.on('common.map', map => console.log(map))
-
-  b.plugin(reduce.bundler, 'bundle.js')
-  b.bundle().pipe(reduce.dest(build))
+const b = reduce.create({
+  basedir: basedir,
+  entries: ['a.js', 'b.js'],
 })
+
+b.plugin(reduce.bundler, 'bundle.js')
+b.bundle().pipe(reduce.dest(build))
+.on('data', file => console.log('bundle:', file.relative))
+.on('end', () => console.log('DONE'))
 
 
 ```
@@ -102,105 +91,30 @@ watch:
 'use strict'
 
 const reduce = require('reduce-js')
-const del = require('del')
 
 const basedir = __dirname + '/src'
 const build = __dirname + '/build'
-del(build).then(function () {
-  let b = reduce.create({
-    basedir,
-    cache: {},
-    packageCache: {},
-    entries: ['a.js', 'b.js'],
-  })
-
-  b.on('common.map', map => console.log(map))
-
-  b.plugin(reduce.bundler, 'bundle.js')
-  b.plugin(reduce.watcher, { entryGlob: '*.js' })
-  b.on('bundle-stream', function (bundleStream) {
-    bundleStream.pipe(reduce.dest(build))
-  })
-  b.start()
+const b = reduce.create({
+  basedir,
+  cache: {},
+  packageCache: {},
+  entries: ['a.js', 'b.js'],
 })
+
+b.plugin(reduce.bundler, 'bundle.js')
+b.plugin(reduce.watcher, { entryGlob: '*.js' })
+b.on('bundle-stream', function (bundleStream) {
+  bundleStream.pipe(reduce.dest(build))
+  .on('data', file => console.log('bundle:', file.relative))
+  .on('end', () => console.log('-'.repeat(40)))
+})
+b.start()
 
 ```
 
 ## Work with Gulp
-As [`common-bundle`] makes `b.bundle()` return a stream like `gulp.src`, it is quite easy to work with gulp plugins.
-
-The following example shows how to create multiple bundles.
-
-```js
-'use strict'
-
-const reduce = require('reduce-js')
-const gulp = require('gulp')
-const path = require('path')
-const del = require('del')
-
-gulp.task('clean', function () {
-  return del(path.join(__dirname, 'build'))
-})
-
-gulp.task('build', ['clean'], function () {
-  let b = createBundler()
-  return reduce.src('page/**/index.js', { cwd: b._options.basedir })
-    .pipe(reduce.bundle(b, {
-      // This object is passed to `common-bundle`.
-      groups: 'page/**/index.js',
-      common: 'common.js',
-    }))
-    .pipe(reduce.dest('build'))
-})
-
-gulp.task('watch', ['clean'], function (cb) {
-  let b = createBundler()
-
-  let clean = require('clean-remains')([])
-
-  b.on('bundle-stream', function (bundleStream) {
-    bundleStream
-      .pipe(reduce.dest('build'))
-      // This plugin will remove files created in the building history but no longer in the newest build.
-      .pipe(clean())
-  })
-  reduce.src('page/**/index.js', { cwd: b._options.basedir })
-    .pipe(reduce.watch(b, {
-      // This object is passed to `common-bundle`.
-      groups: 'page/**/index.js',
-      common: 'common.js',
-    }, { entryGlob: 'page/**/index.js' }))
-})
-
-function createBundler() {
-  let basedir = path.join(__dirname, 'src')
-  let b = reduce.create({
-    basedir: basedir,
-    paths: [path.join(basedir, 'web_modules')],
-    fileCache: {},
-    cache: {},
-    packageCache: {},
-  })
-
-  // As multiple bundles are created,
-  // it is important to deal with duplicates carefully.
-  // There are known issues caused in such cases.
-  // See https://github.com/substack/factor-bundle/issues/51
-  // This plugin will just disable the default dedupe transform.
-  b.plugin('dedupify')
-  b.on('dedupify.deduped', function (o) {
-    console.warn('Duplicates of modules found!', o.file, o.dup)
-  })
-
-  b.on('common.map', function (map) {
-    console.log('bundles:', '[ ' + Object.keys(map).join(', ') + ' ]')
-  })
-
-  return b
-}
-
-```
+Check the [gulpfile](example/gulp/multi/gulpfile.js)
+to see how to create common shared bundles with [`gulp`].
 
 ## API
 
@@ -229,7 +143,9 @@ Options passed to `reduce.bundler`.
 ### reduce.watch(b, opts, watchOpts)
 Return a transform:
 * input: [`vinyl-fs#src`]
-* output: actually no data flows out.
+* output: actually no data flows out,
+  but you can listen to the `bundle` event (triggered on the returned transform)
+  to process the result of `b.bundle()`.
 
 `b` and `opts` are the same with `reduce.bundle(b, opts)`
 
@@ -255,6 +171,23 @@ Default: `bundle.js`
 * `String`: all modules are packed into a single bundle, with `opts` the file path.
 * otherwise: `opts` is passed to [`common-bundle`] directly.
 
+```js
+'use strict'
+
+const reduce = require('reduce-js')
+
+const basedir = __dirname + '/src'
+const build = __dirname + '/build'
+const b = reduce.create({
+  basedir: basedir,
+  entries: ['a.js', 'b.js'],
+})
+
+b.plugin(reduce.bundler, 'bundle.js')
+b.bundle().pipe(reduce.dest(build))
+
+```
+
 ### reduce.watcher(b, opts)
 The plugin for watching file changes, addition and deletion.
 
@@ -264,6 +197,29 @@ A `bundle-stream` event will be triggered on `b` whenever `b.bundle()` is run,
 and you can listen to it to process `b.bundle()`.
 
 Run `b.start()` to start bundling for the first time.
+
+```js
+'use strict'
+
+const reduce = require('reduce-js')
+
+const basedir = __dirname + '/src'
+const build = __dirname + '/build'
+const b = reduce.create({
+  basedir,
+  cache: {},
+  packageCache: {},
+  entries: ['a.js', 'b.js'],
+})
+
+b.plugin(reduce.bundler, 'bundle.js')
+b.plugin(reduce.watcher, { entryGlob: '*.js' })
+b.on('bundle-stream', function (bundleStream) {
+  bundleStream.pipe(reduce.dest(build))
+})
+b.start()
+
+```
 
 ## Related
 
