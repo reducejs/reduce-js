@@ -102,6 +102,7 @@ function watch(b, opts, wopts) {
       next()
     },
     function (next) {
+      b.on('bundle-stream', s => this.emit('bundle', s))
       b.once('close', next)
       b.start()
     }
