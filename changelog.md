@@ -1,4 +1,22 @@
-<!-- 19c3a56 1457153822000 -->
+<!-- 02110ac 1457242139000 -->
+
+## [v9.3.0](https://github.com/reducejs/reduce-js/commit/02110ac) (2016-03-06)
+
+* [[`3ab718e`](https://github.com/reducejs/reduce-js/commit/3ab718e)] example
+
+* [[`190bae6`](https://github.com/reducejs/reduce-js/commit/190bae6)] test: watch bundle event
+
+* [[`b84ae90`](https://github.com/reducejs/reduce-js/commit/b84ae90)] readme
+
+* [[`e88c550`](https://github.com/reducejs/reduce-js/commit/e88c550)] Feature: bundle event on watch stream
+
+* [[`312d13e`](https://github.com/reducejs/reduce-js/commit/312d13e)] Fix coveralls
+
+* [[`84a9802`](https://github.com/reducejs/reduce-js/commit/84a9802)] readme: typo
+
+* [[`7e5cb10`](https://github.com/reducejs/reduce-js/commit/7e5cb10)] readme
+
+* [[`4e5acd8`](https://github.com/reducejs/reduce-js/commit/4e5acd8)] changelog
 
 ## [v9.2.0](https://github.com/reducejs/reduce-js/commit/19c3a56) (2016-03-05)
 
