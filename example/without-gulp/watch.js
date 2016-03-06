@@ -1,7 +1,6 @@
 'use strict'
 
-const reduce = require('../..')
-const path = require('path')
+const reduce = require('reduce-js')
 const del = require('del')
 
 const basedir = __dirname + '/src'
@@ -13,14 +12,14 @@ del(build).then(function () {
     packageCache: {},
     fileCache: {},
   })
+  b.on('error', err => console.log(err.stack))
 
-  b.on('error', err => console.log(err))
-  b.on('common.map', map => console.log(map))
-
-  b.on('bundle-stream', function (bundleStream) {
-    bundleStream.pipe(reduce.dest(build))
-  })
   reduce.src('*.js', { cwd: basedir })
     .pipe(reduce.watch(b, 'bundle.js', { entryGlob: '*.js' }))
+    .on('bundle', function (bundleStream) {
+      bundleStream.pipe(reduce.dest(build))
+      .on('data', file => console.log('bundle:', file.relative))
+      .on('end', () => console.log('-'.repeat(40)))
+    })
 })
 

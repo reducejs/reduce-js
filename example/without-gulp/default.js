@@ -1,6 +1,6 @@
 'use strict'
 
-const reduce = require('../..')
+const reduce = require('reduce-js')
 const del = require('del')
 
 const basedir = __dirname + '/src'
