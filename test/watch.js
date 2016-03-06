@@ -34,11 +34,6 @@ test('watch', function(t) {
     packageCache: {},
     fileCache: {},
   })
-  b.on('bundle-stream', function (bundleStream) {
-    bundleStream.pipe(reduce.dest(dest()))
-      .on('data', () => {})
-      .once('finish', () => setTimeout(next, 50))
-  })
   b.once('close', function () {
     t.equal(count, 0)
     t.end()
@@ -46,6 +41,11 @@ test('watch', function(t) {
   let pipeline = reduce.watch(b, {
     common: 'c.js',
     groups: '+(a|b).js',
+  })
+  .on('bundle', function (bundleStream) {
+    bundleStream.pipe(reduce.dest(dest()))
+      .on('data', () => {})
+      .once('finish', () => setTimeout(next, 50))
   })
 
   pipeline.write(new File({
