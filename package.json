@@ -7,7 +7,7 @@
     "test": "npm run lint && tap test/*.js",
     "cov": "tap --cov test/*.js",
     "lint": "eslint *.js 'lib/**/*.js' test/*.js bin/*.js",
-    "coveralls": "COVERALLS_REPO_TOKEN=UqpxOJzuPfYfmsuvJ1Sxyx4WW4tDL7rEV npm run cov"
+    "coveralls": "COVERALLS_REPO_TOKEN=1cnyqPV46MAutCfQZdwIMqa4LyYUEi2hQ npm run cov"
   },
   "repository": {
     "type": "git",
