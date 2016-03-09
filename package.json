@@ -30,7 +30,7 @@
   "homepage": "https://github.com/reducejs/reduce-js#readme",
   "dependencies": {
     "browserify": "^13.0.0",
-    "common-bundle": "^0.3.0",
+    "common-bundle": "^0.4.0",
     "concat-stream": "^1.5.1",
     "vinyl-fs": "^2.2.1",
     "watchify2": "^0.1.0"
