@@ -1,4 +1,16 @@
-<!-- 02110ac 1457242139000 -->
+<!-- c2393bc 1463739586000 -->
+
+## [v10.0.0](https://github.com/reducejs/reduce-js/commit/c2393bc) (2016-05-20)
+
+* [[`75ad9b6`](https://github.com/reducejs/reduce-js/commit/75ad9b6)] travis: 5
+
+* [[`5be40eb`](https://github.com/reducejs/reduce-js/commit/5be40eb)] refactor
+
+## [v9.4.0](https://github.com/reducejs/reduce-js/commit/68b5e1b) (2016-03-09)
+
+* [[`0b7001e`](https://github.com/reducejs/reduce-js/commit/0b7001e)] update: common-bundle
+
+* [[`bfa9f6d`](https://github.com/reducejs/reduce-js/commit/bfa9f6d)] changelog
 
 ## [v9.3.0](https://github.com/reducejs/reduce-js/commit/02110ac) (2016-03-06)
 
