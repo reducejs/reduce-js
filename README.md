@@ -4,7 +4,7 @@
 [![coverage](https://img.shields.io/coveralls/reducejs/reduce-js.svg)](https://coveralls.io/github/reducejs/reduce-js)
 [![dependencies](https://david-dm.org/reducejs/reduce-js.svg)](https://david-dm.org/reducejs/reduce-js)
 [![devDependencies](https://david-dm.org/reducejs/reduce-js/dev-status.svg)](https://david-dm.org/reducejs/reduce-js#info=devDependencies)
-![node](https://img.shields.io/node/v/common-bundle.svg)
+![node](https://img.shields.io/node/v/reduce-js.svg)
 
 Augment [`browserify`] with the following features:
 
