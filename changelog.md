@@ -1,4 +1,10 @@
-<!-- c2393bc 1463739586000 -->
+<!-- fe56e5e 1463739752000 -->
+
+## [v10.0.1](https://github.com/reducejs/reduce-js/commit/fe56e5e) (2016-05-20)
+
+* [[`b1929a5`](https://github.com/reducejs/reduce-js/commit/b1929a5)] fix badge
+
+* [[`f07e522`](https://github.com/reducejs/reduce-js/commit/f07e522)] changelog
 
 ## [v10.0.0](https://github.com/reducejs/reduce-js/commit/c2393bc) (2016-05-20)
 
