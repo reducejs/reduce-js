@@ -1,3 +1,3 @@
-var world = require('lib/world')
+var world = require('world')
 module.exports = 'hi, ' + world
 

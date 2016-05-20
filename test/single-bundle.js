@@ -11,20 +11,20 @@ const dest = fixtures.bind(null, 'build')
 const expect = fixtures.bind(null, 'expected', 'single-bundle')
 
 test('single bundle', function(t) {
-  del(dest()).then(function () {
-    let basedir = fixtures('src', 'single-bundle')
-    let b = reduce.create({ basedir: basedir })
-    reduce.src(['green.js', 'red.js'], { cwd: basedir })
-      .pipe(reduce.bundle(b, 'bundle.js'))
-      .pipe(reduce.dest(dest()))
-      .on('finish', function () {
-        t.equal(
-          read(dest('bundle.js')),
-          read(expect('bundle.js')),
-          'bundle.js'
-        )
-        t.end()
-      })
+  del.sync(dest())
+  let basedir = fixtures('src', 'single-bundle')
+  let b = reduce.create(
+    ['green.js', 'red.js'],
+    { basedir: basedir },
+    'bundle.js'
+  )
+  b.bundle().pipe(b.dest(dest())).on('end', function () {
+    t.equal(
+      read(dest('bundle.js')),
+      read(expect('bundle.js')),
+      'bundle.js'
+    )
+    t.end()
   })
 })
 
