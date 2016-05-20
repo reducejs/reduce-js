@@ -6,7 +6,6 @@ const vm = require('vm')
 const mkdirp = require('mkdirp')
 const path = require('path')
 const fs = require('fs')
-const File = require('vinyl')
 
 const os = require('os')
 const tmpdir = path.join((os.tmpdir || os.tmpDir)(), 'reduce-' + Math.random())
@@ -28,32 +27,28 @@ test('watch', function(t) {
   let count = 4
 
   let basedir = src()
-  let b = reduce.create({
-    basedir: basedir,
-    cache: {},
-    packageCache: {},
-    fileCache: {},
-  })
+  let b = reduce.create(
+    ['a.js', 'b.js'],
+    {
+      basedir,
+      cache: {},
+      packageCache: {},
+    },
+    {
+      common: 'c.js',
+      groups: '+(a|b).js',
+    },
+    true
+  )
   b.once('close', function () {
     t.equal(count, 0)
     t.end()
   })
-  let pipeline = reduce.watch(b, {
-    common: 'c.js',
-    groups: '+(a|b).js',
-  })
-  .on('bundle', function (bundleStream) {
-    bundleStream.pipe(reduce.dest(dest()))
-      .on('data', () => {})
-      .once('finish', () => setTimeout(next, 50))
-  })
-
-  pipeline.write(new File({
-    path: basedir + '/a.js',
-    contents: fs.createReadStream(basedir + '/a.js'),
-  }))
-  pipeline.write(new File({ path: basedir + '/b.js' }))
-  pipeline.end()
+  b.on('update', function update() {
+    b.bundle().pipe(b.dest(dest()))
+      .once('end', () => setTimeout(next, 50))
+    return update
+  }())
 
   function next() {
     let c = readDest('c.js')
