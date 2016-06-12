@@ -28,13 +28,15 @@
     "url": "https://github.com/reducejs/reduce-js/issues"
   },
   "homepage": "https://github.com/reducejs/reduce-js#readme",
+  "optionalDependencies": {
+    "watchify2": "^0.1.0"
+  },
   "dependencies": {
     "browserify": "^13.0.0",
     "common-bundle": "^0.5.0",
     "globby": "^4.1.0",
     "vinyl-buffer": "^1.0.0",
-    "vinyl-fs": "^2.2.1",
-    "watchify2": "^0.1.0"
+    "vinyl-fs": "^2.2.1"
   },
   "devDependencies": {
     "del": "^2.0.2",
