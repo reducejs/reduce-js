@@ -1,4 +1,14 @@
-<!-- fe56e5e 1463739752000 -->
+<!-- 19d24f0 1465721854000 -->
+
+## [v10.1.0](https://github.com/reducejs/reduce-js/commit/19d24f0) (2016-06-12)
+
+* [[`eaf09a4`](https://github.com/reducejs/reduce-js/commit/eaf09a4)] move watchify to optionalDependencies
+
+## [v10.0.2](https://github.com/reducejs/reduce-js/commit/6bf6d2b) (2016-05-26)
+
+* [[`49c7d65`](https://github.com/reducejs/reduce-js/commit/49c7d65)] Fix default arguments
+
+* [[`853ae6a`](https://github.com/reducejs/reduce-js/commit/853ae6a)] changelog
 
 ## [v10.0.1](https://github.com/reducejs/reduce-js/commit/fe56e5e) (2016-05-20)
 
